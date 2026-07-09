@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fee Details - GNITC Portal</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" />
+    <style>
+      body { background-color: #f8f9fa; }
+      .receipt-line { border-bottom: 2px dashed #dee2e6; margin: 1.5rem 0; }
+    </style>
+  </head>
+  <body>
+    
+    <nav class="navbar navbar-light bg-white shadow-sm mb-4">
+      <div class="container">
+        <a class="navbar-brand fw-bold text-primary" href="/dashboard">
+          <i class="bi bi-mortarboard-fill me-2"></i>GNITC Portal
+        </a>
+        <a href="javascript:history.back()" class="btn btn-outline-secondary btn-sm rounded-pill px-3">
+          <i class="bi bi-arrow-left me-1"></i> Dashboard
+        </a>
+      </div>
+    </nav>
+
+    <div class="container pb-5" style="max-width: 700px;">
+      
+      <div class="text-center mb-5 mt-4">
+        <div class="bg-danger bg-opacity-10 text-danger rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 70px; height: 70px; font-size: 2rem;">
+          <i class="bi bi-wallet2"></i>
+        </div>
+        <h2 class="fw-bold text-dark">Financial Overview</h2>
+        <p class="text-muted">Academic Year 2025-2026</p>
+      </div>
+
+      <% 
+        const total = profile.fees.totalFees || 100000; 
+        const paid = profile.fees.amountPaid || 0;
+        const due = profile.fees.dueAmount || 0;
+        const paidPercentage = Math.round((paid / total) * 100);
+      %>
+
+      <div class="card border-0 shadow-lg rounded-4 overflow-hidden mb-4">
+        
+        <div class="card-header border-0 p-4 <%= due === 0 ? 'bg-success' : 'bg-dark' %> text-white text-center">
+          <h6 class="text-white-50 text-uppercase tracking-wide mb-1">
+            <%= due === 0 ? 'Account Status' : 'Outstanding Balance' %>
+          </h6>
+          <h1 class="fw-bold mb-0 display-4">
+            <% if (due === 0) { %>
+              <i class="bi bi-check-circle-fill me-2"></i>Fully Paid
+            <% } else { %>
+              ₹<%= due.toLocaleString('en-IN') %>
+            <% } %>
+          </h1>
+        </div>
+
+        <div class="card-body p-4 p-md-5 bg-white">
+          
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+              <h5 class="fw-bold text-dark mb-0"><%= student.name %></h5>
+              <span class="text-muted small"><%= student.rollNo %></span>
+            </div>
+            <span class="badge bg-light text-dark border px-3 py-2 rounded-pill shadow-sm">B.Tech CSE</span>
+          </div>
+
+          <div class="mb-4">
+            <div class="d-flex justify-content-between mb-2">
+              <span class="text-muted small fw-bold text-uppercase">Payment Progress</span>
+              <span class="fw-bold text-<%= due === 0 ? 'success' : 'primary' %>"><%= paidPercentage %>% Cleared</span>
+            </div>
+            <div class="progress" style="height: 12px; border-radius: 10px;">
+              <div class="progress-bar <%= due === 0 ? 'bg-success' : 'bg-primary' %> progress-bar-striped progress-bar-animated" 
+                   role="progressbar" 
+                   style="width: <%= paidPercentage %>%">
+              </div>
+            </div>
+          </div>
+
+          <div class="receipt-line"></div>
+
+          <div class="row g-4 mb-2">
+            <div class="col-6">
+              <p class="text-muted small text-uppercase fw-bold mb-1"><i class="bi bi-receipt me-1"></i> Total Tuition Fee</p>
+              <h5 class="fw-bold text-dark">₹<%= total.toLocaleString('en-IN') %></h5>
+            </div>
+            <div class="col-6 text-end">
+              <p class="text-muted small text-uppercase fw-bold mb-1"><i class="bi bi-check2-circle me-1"></i> Total Amount Paid</p>
+              <h5 class="fw-bold text-success">₹<%= paid.toLocaleString('en-IN') %></h5>
+            </div>
+          </div>
+
+        </div>
+        
+        <div class="card-footer border-0 bg-light p-4 text-center">
+          <% if (due > 0) { %>
+            <p class="text-muted small mb-3"><i class="bi bi-info-circle me-1"></i> Please clear your pending dues before the semester examinations.</p>
+            
+            <a href="/checkout/<%= student.rollNo %>" class="btn btn-primary btn-lg rounded-pill px-5 shadow-sm fw-bold w-100 text-decoration-none d-inline-block" style="max-width: 300px;">
+              Pay ₹<%= due.toLocaleString('en-IN') %> Now
+            </a>
+
+          <% } else { %>
+            <p class="text-success fw-bold mb-0"><i class="bi bi-emoji-smile me-1"></i> You are all caught up for this semester!</p>
+          <% } %>
+        </div>
+
+      </div>
+
+      <div class="card border border-primary border-opacity-25 bg-primary bg-opacity-10 rounded-4 shadow-sm">
+        <div class="card-body p-4 d-flex align-items-center">
+          <i class="bi bi-headset text-primary fs-2 me-3"></i>
+          <div>
+            <h6 class="fw-bold text-primary mb-1">Need help with payments?</h6>
+            <p class="text-muted small mb-0">Contact the GNITC accounts department at <strong>accounts@gnitc.edu</strong></p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

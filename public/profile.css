@@ -1,0 +1,102 @@
+/* Global Styles */
+body {
+  background-color: #f4f7f6;
+  font-family:
+    "Segoe UI",
+    system-ui,
+    -apple-system,
+    sans-serif;
+  padding-bottom: 80px; /* Space for mobile nav */
+}
+
+@media (min-width: 768px) {
+  body {
+    padding-bottom: 0; /* Remove padding on desktop */
+  }
+}
+
+/* Welcome Banner */
+.welcome-banner {
+  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+  color: white;
+  border-radius: 1rem;
+}
+
+/* Dashboard Cards */
+.dash-card {
+  background: white;
+  border-radius: 1rem;
+  border: none;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.dash-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08) !important;
+}
+
+/* Icon Containers */
+.icon-circle {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+}
+
+.bg-light-success {
+  background-color: #d1fae5;
+  color: #059669;
+}
+.bg-light-danger {
+  background-color: #fee2e2;
+  color: #dc2626;
+}
+.bg-light-primary {
+  background-color: #dbeafe;
+  color: #2563eb;
+}
+.bg-light-warning {
+  background-color: #fef3c7;
+  color: #d97706;
+}
+
+/* Mobile Bottom Navigation */
+.mobile-bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: white;
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.05);
+  display: flex;
+  justify-content: space-around;
+  padding: 0.8rem 0;
+  z-index: 1050;
+  border-top-left-radius: 1.5rem;
+  border-top-right-radius: 1.5rem;
+}
+
+.nav-icon {
+  color: #64748b;
+  font-size: 1.4rem;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: color 0.2s;
+}
+
+.nav-icon.active {
+  color: #4f46e5;
+}
+
+.nav-icon span {
+  font-size: 0.7rem;
+  margin-top: 4px;
+  font-weight: 500;
+}
