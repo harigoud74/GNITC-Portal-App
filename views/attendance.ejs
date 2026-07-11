@@ -3,47 +3,157 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Attendance Details</title>
+    <title>Attendance Record - GNITC</title>
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
       rel="stylesheet" />
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" />
-    <link rel="stylesheet" href="/profile.css" />
+    <style>
+      body {
+        background-color: #f4f6f8;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+      .hover-lift {
+        transition:
+          transform 0.2s ease,
+          box-shadow 0.2s ease;
+      }
+      .hover-lift:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+      }
+      /* Teal/Blue Gradient for Attendance */
+      .bg-gradient-info {
+        background: linear-gradient(135deg, #0ea5e9 0%, #2563eb 100%);
+        color: white;
+      }
+      .accent-border {
+        border-left: 5px solid;
+      }
+    </style>
   </head>
-  <body class="bg-light">
-    <div class="container mt-4 max-w-md mx-auto" style="max-width: 480px">
+  <body>
+    <div class="container mt-4 mt-md-5 pb-5">
+      <!-- Back Navigation -->
       <a
         href="javascript:history.back()"
-        class="text-decoration-none text-secondary mb-4 d-inline-block">
-        <i class="bi bi-arrow-left fs-4"></i> Back to Dashboard
+        class="btn btn-white bg-white shadow-sm rounded-pill px-4 py-2 fw-bold text-dark mb-4 hover-lift border-0">
+        <i class="bi bi-arrow-left me-2 text-primary"></i> Back to Dashboard
       </a>
 
-      <h2 class="fw-bold text-primary mb-4">Attendance Details</h2>
-
-      <div class="dash-card shadow-sm p-4 text-center">
+      <!-- Premium Header -->
+      <div
+        class="bg-gradient-info rounded-4 p-4 p-md-5 mb-5 shadow position-relative overflow-hidden">
         <div
-          class="icon-circle bg-light-success mx-auto mb-3"
-          style="width: 80px; height: 80px; font-size: 2.5rem">
-          <i class="bi bi-calendar-check"></i>
+          class="position-relative z-1 d-flex justify-content-between align-items-center flex-wrap">
+          <div>
+            <span
+              class="badge bg-white text-info px-3 py-2 rounded-pill shadow-sm fw-bold mb-3">
+              <i class="bi bi-calendar-check me-1"></i> Academic Record
+            </span>
+            <h1 class="fw-bold mb-2">Detailed Attendance</h1>
+            <p class="mb-0 fs-5 opacity-75">
+              Track your semester presence and subject-wise metrics.
+            </p>
+          </div>
+
+          <!-- Overall Percentage Highlight -->
+          <div
+            class="bg-white bg-opacity-25 rounded-4 p-4 text-center mt-3 mt-md-0 border border-white border-opacity-25 backdrop-blur">
+            <h5 class="text-white opacity-75 mb-1 fw-bold text-uppercase small">
+              Overall Status
+            </h5>
+            <h1 class="display-4 fw-bold text-white mb-0">
+              75<span class="fs-4">%</span>
+            </h1>
+          </div>
+        </div>
+        <!-- Decorative Background Icon -->
+        <i
+          class="bi bi-pie-chart-fill position-absolute text-white"
+          style="font-size: 14rem; right: 10px; top: -20px; opacity: 0.15"></i>
+      </div>
+
+      <!-- Subject Breakdown -->
+      <h4 class="fw-bold text-dark mb-4">Subject-wise Breakdown</h4>
+      <div class="row g-4">
+        <!-- Subject Card 1 -->
+        <div class="col-md-6 col-lg-4">
+          <div
+            class="card border-0 shadow-sm rounded-4 h-100 p-4 accent-border border-success hover-lift">
+            <div class="d-flex justify-content-between align-items-start mb-3">
+              <div>
+                <h5 class="fw-bold text-dark mb-1">Data Structures</h5>
+                <span class="badge bg-light text-muted border">CS301</span>
+              </div>
+              <div
+                class="bg-success bg-opacity-10 text-success rounded-circle p-2">
+                <i class="bi bi-check-circle-fill fs-5"></i>
+              </div>
+            </div>
+            <h2 class="fw-bold text-success mb-2">82%</h2>
+            <div class="progress mb-3" style="height: 6px">
+              <div class="progress-bar bg-success" style="width: 82%"></div>
+            </div>
+            <div
+              class="d-flex justify-content-between text-muted small fw-bold">
+              <span>Attended: 33</span>
+              <span>Total: 40</span>
+            </div>
+          </div>
         </div>
 
-        <h1 class="display-4 fw-bold mb-0 text-success">
-          <%= profile.attendance.percentage %>%
-        </h1>
-        <p class="text-muted mt-2">Overall Attendance</p>
-
-        <hr class="my-4" />
-
-        <div class="d-flex justify-content-between text-start">
-          <div>
-            <h6 class="text-muted mb-1">Total Classes</h6>
-            <h4 class="fw-bold"><%= profile.attendance.totalClasses %></h4>
+        <!-- Subject Card 2 -->
+        <div class="col-md-6 col-lg-4">
+          <div
+            class="card border-0 shadow-sm rounded-4 h-100 p-4 accent-border border-warning hover-lift">
+            <div class="d-flex justify-content-between align-items-start mb-3">
+              <div>
+                <h5 class="fw-bold text-dark mb-1">Operating Systems</h5>
+                <span class="badge bg-light text-muted border">CS302</span>
+              </div>
+              <div
+                class="bg-warning bg-opacity-10 text-warning rounded-circle p-2">
+                <i class="bi bi-exclamation-circle-fill fs-5"></i>
+              </div>
+            </div>
+            <h2 class="fw-bold text-warning mb-2">68%</h2>
+            <div class="progress mb-3" style="height: 6px">
+              <div class="progress-bar bg-warning" style="width: 68%"></div>
+            </div>
+            <div
+              class="d-flex justify-content-between text-muted small fw-bold">
+              <span>Attended: 24</span>
+              <span>Total: 35</span>
+            </div>
           </div>
-          <div>
-            <h6 class="text-muted mb-1">Attended</h6>
-            <h4 class="fw-bold"><%= profile.attendance.classesAttended %></h4>
+        </div>
+
+        <!-- Subject Card 3 -->
+        <div class="col-md-6 col-lg-4">
+          <div
+            class="card border-0 shadow-sm rounded-4 h-100 p-4 accent-border border-success hover-lift">
+            <div class="d-flex justify-content-between align-items-start mb-3">
+              <div>
+                <h5 class="fw-bold text-dark mb-1">Database Systems</h5>
+                <span class="badge bg-light text-muted border">CS303</span>
+              </div>
+              <div
+                class="bg-success bg-opacity-10 text-success rounded-circle p-2">
+                <i class="bi bi-check-circle-fill fs-5"></i>
+              </div>
+            </div>
+            <h2 class="fw-bold text-success mb-2">90%</h2>
+            <div class="progress mb-3" style="height: 6px">
+              <div class="progress-bar bg-success" style="width: 90%"></div>
+            </div>
+            <div
+              class="d-flex justify-content-between text-muted small fw-bold">
+              <span>Attended: 27</span>
+              <span>Total: 30</span>
+            </div>
           </div>
         </div>
       </div>

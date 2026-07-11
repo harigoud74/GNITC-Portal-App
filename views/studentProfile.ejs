@@ -1,76 +1,129 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Student Dashboard - GNITC</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" />
-    <style>
-      body { background-color: #f4f6f8; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-      
-      /* Smooth Hover Effects for Cards */
-      .hover-lift { transition: transform 0.2s ease, box-shadow 0.2s ease; }
-      .hover-lift:hover { transform: translateY(-5px); box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important; }
-      
-      /* Premium Gradient Background */
-      .bg-gradient-primary { 
-        background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%); 
-        color: white; 
-      }
-      
-      /* Mobile Nav Tweaks */
-      .mobile-bottom-nav a { flex: 1; transition: color 0.2s; }
-      .mobile-bottom-nav a:hover { color: #4f46e5 !important; }
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Student Dashboard - GNITC</title>
 
-      /* Timeline & Accent styles for new Dashboard layout */
-      .timeline-dot { width: 14px; height: 14px; transform: translateX(-50%); margin-left: -1px; }
-      .accent-border { border-left: 5px solid; }
-      .card-icon-float { position: absolute; right: -10px; bottom: -15px; opacity: 0.04; font-size: 6rem; z-index: 0; pointer-events: none;}
-      .card-content-z { position: relative; z-index: 2; }
-    </style>
-  </head>
-  <body>
-    
-    <!-- Desktop Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm d-none d-md-flex sticky-top">
-      <div class="container py-1">
-        <a class="navbar-brand fw-bold d-flex align-items-center" href="#" style="color: #4f46e5;">
-          <i class="bi bi-mortarboard-fill me-2 fs-3"></i>GNITC Portal
-        </a>
-        
-        <div class="d-flex align-items-center gap-3">
-          <div class="text-end d-none d-lg-block border-end pe-3">
-            <h6 class="mb-0 fw-bold text-dark"><%= student.name %></h6>
-            <small class="text-muted"><%= student.rollNo %></small>
-          </div>
-          
-          <div class="bg-primary bg-opacity-10 text-primary rounded-circle d-flex align-items-center justify-content-center fw-bold shadow-sm" style="width: 40px; height: 40px;">
-            <%= student.name.charAt(0) %>
-          </div>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" />
+  <style>
+    /* Pull the clickable link to the top layer so the content div doesn't block clicks */
+    .stretched-link::after {
+      z-index: 10 !important;
+    }
 
-          <a href="/account/<%= student.rollNo %>" class="btn btn-light btn-sm fw-bold border ms-2 rounded-pill px-3">
-            <i class="bi bi-person-gear me-1"></i> Account
-          </a>
-          <a href="/student-logout" class="btn btn-outline-danger btn-sm rounded-pill px-3">
-            Logout
-          </a>
+    body {
+      background-color: #f4f6f8;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    /* Smooth Hover Effects for Cards */
+    .hover-lift {
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .hover-lift:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .15) !important;
+    }
+
+    /* Premium Gradient Background */
+    .bg-gradient-primary {
+      background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+      color: white;
+    }
+
+    /* Mobile Nav Tweaks */
+    .mobile-bottom-nav a {
+      flex: 1;
+      transition: color 0.2s;
+    }
+
+    .mobile-bottom-nav a:hover {
+      color: #4f46e5 !important;
+    }
+
+    /* Timeline & Accent styles for new Dashboard layout */
+    .timeline-dot {
+      width: 14px;
+      height: 14px;
+      transform: translateX(-50%);
+      margin-left: -1px;
+    }
+
+    .accent-border {
+      border-left: 5px solid;
+    }
+
+    .card-icon-float {
+      position: absolute;
+      right: -10px;
+      bottom: -15px;
+      opacity: 0.04;
+      font-size: 6rem;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .card-content-z {
+      position: relative;
+      z-index: 2;
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm d-none d-md-flex sticky-top">
+    <div class="container py-1">
+      <a class="navbar-brand fw-bold d-flex align-items-center" href="#" style="color: #4f46e5;">
+        <i class="bi bi-mortarboard-fill me-2 fs-3"></i>GNITC Portal
+      </a>
+
+      <div class="d-flex align-items-center gap-3">
+        <div class="text-end d-none d-lg-block border-end pe-3">
+          <h6 class="mb-0 fw-bold text-dark">
+            <%= student.name %>
+          </h6>
+          <small class="text-muted">
+            <%= student.rollNo %>
+          </small>
         </div>
-      </div>
-    </nav>
 
-    <!-- Mobile Top Header -->
-    <div class="d-flex justify-content-between align-items-center d-md-none bg-white p-3 shadow-sm sticky-top">
-      <h5 class="fw-bold m-0" style="color: #4f46e5;"><i class="bi bi-mortarboard-fill me-2"></i>Portal</h5>
-      <div class="bg-primary bg-opacity-10 text-primary rounded-circle d-flex align-items-center justify-content-center fw-bold" style="width: 35px; height: 35px;">
-        <%= student.name.charAt(0) %>
+        <div
+          class="bg-primary bg-opacity-10 text-primary rounded-circle d-flex align-items-center justify-content-center fw-bold shadow-sm"
+          style="width: 40px; height: 40px;">
+          <%= student.name.charAt(0) %>
+        </div>
+
+        <a href="/account/<%= student.rollNo %>" class="btn btn-light btn-sm fw-bold border ms-2 rounded-pill px-3">
+          <i class="bi bi-person-gear me-1"></i> Account
+        </a>
+        <a href="/student-logout" class="btn btn-outline-danger btn-sm rounded-pill px-3">
+          Logout
+        </a>
       </div>
     </div>
+  </nav>
 
-    <div class="container mt-4 mb-5" style="min-height: 60vh">
-      
-      <!-- Premium Welcome Banner -->
+  <div class="d-flex justify-content-between align-items-center d-md-none bg-white p-3 shadow-sm sticky-top">
+    <h5 class="fw-bold m-0" style="color: #4f46e5;"><i class="bi bi-mortarboard-fill me-2"></i>Portal</h5>
+    <div
+      class="bg-primary bg-opacity-10 text-primary rounded-circle d-flex align-items-center justify-content-center fw-bold"
+      style="width: 35px; height: 35px;">
+      <%= student.name.charAt(0) %>
+    </div>
+  </div>
+
+  <div class="container mt-4 mb-5" style="min-height: 60vh">
+
+    <% // SAFETY BLOCK: Define fallbacks to prevent crashes if the faculty hasn't created the profile yet const
+      safeProfile=(typeof profile !=='undefined' && profile) ? profile : {}; const att=safeProfile.attendance || {
+      percentage: 0, classesAttended: 0, totalClasses: 0 }; const fee=safeProfile.fees || { dueAmount: 0, amountPaid: 0,
+      totalFees: 0 }; const clubs=safeProfile.joinedClubs || []; const events=safeProfile.registeredEvents || []; %>
+
       <div class="bg-gradient-primary rounded-4 p-4 p-md-5 mb-4 shadow position-relative overflow-hidden">
         <div class="position-relative z-1">
           <div class="d-flex align-items-center mb-3">
@@ -84,27 +137,21 @@
             Welcome to your centralized academic control center.
           </p>
         </div>
-        <!-- Abstract Background Shapes -->
         <div class="position-absolute bg-white opacity-10 rounded-circle" style="width: 300px; height: 300px; right: -50px; top: -100px;"></div>
         <div class="position-absolute bg-white opacity-10 rounded-circle" style="width: 200px; height: 200px; right: 150px; bottom: -80px;"></div>
-        <!-- Decorative Icon -->
         <i class="bi bi-rocket-takeoff-fill position-absolute text-white" style="font-size: 12rem; right: 20px; top: 10px; opacity: 0.15; transform: rotate(15deg);"></i>
       </div>
 
-      <!-- Two Column Layout for Desktop -->
       <div class="row g-4">
         
-        <!-- LEFT COLUMN: Main Dashboard Stats & Actions -->
         <div class="col-lg-8">
           <div class="d-flex justify-content-between align-items-end mb-3">
             <h5 class="fw-bold text-dark mb-0">Academic Overview</h5>
-            <a href="#" class="text-decoration-none small text-primary fw-bold">View Full Report</a>
+            <!-- <a href="#" class="text-decoration-none small text-primary fw-bold">View Full Report</a> -->
           </div>
 
-          <!-- Main Data Grid -->
           <div class="row g-3 mb-4">
             
-            <!-- Attendance Card -->
             <div class="col-sm-6">
               <div class="card border-0 shadow-sm rounded-4 p-4 h-100 hover-lift position-relative accent-border border-success overflow-hidden">
                 <a href="/attendance/<%= student.rollNo %>" class="stretched-link"></a>
@@ -116,223 +163,252 @@
                     </div>
                     <h6 class="text-muted fw-bold text-uppercase small mb-0">Attendance</h6>
                   </div>
-                  <h2 class="fw-bold text-dark mb-2"><%= profile.attendance.percentage %>%</h2>
+                  <h2 class="fw-bold text-dark mb-2"><%= att.percentage %>%</h2>
                   <div class="progress mt-auto" style="height: 6px; border-radius: 10px;">
-                    <div class="progress-bar <%= profile.attendance.percentage >= 75 ? 'bg-success' : 'bg-danger' %> progress-bar-striped progress-bar-animated" style="width: <%= profile.attendance.percentage %>%"></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Fee Card -->
-            <div class="col-sm-6">
-              <div class="card border-0 shadow-sm rounded-4 p-4 h-100 hover-lift position-relative accent-border <%= profile.fees.dueAmount === 0 ? 'border-success' : 'border-danger' %> overflow-hidden">
-                <a href="/fees/<%= student.rollNo %>" class="stretched-link"></a>
-                <i class="bi bi-wallet2 card-icon-float text-<%= profile.fees.dueAmount === 0 ? 'success' : 'danger' %>"></i>
-                <div class="card-content-z">
-                  <div class="d-flex align-items-center mb-3">
-                    <div class="bg-<%= profile.fees.dueAmount === 0 ? 'success' : 'danger' %> bg-opacity-10 text-<%= profile.fees.dueAmount === 0 ? 'success' : 'danger' %> rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 45px; height: 45px">
-                      <i class="bi bi-credit-card fs-5"></i>
-                    </div>
-                    <h6 class="text-muted fw-bold text-uppercase small mb-0">Fee Status</h6>
-                  </div>
-                  <% if (profile.fees.dueAmount === 0) { %>
-                    <h3 class="fw-bold text-success mb-1 mt-1">Fully Paid</h3>
-                    <small class="text-muted">No pending dues</small>
-                  <% } else { %>
-                    <h3 class="fw-bold text-danger mb-1">₹<%= profile.fees.dueAmount.toLocaleString('en-IN') %></h3>
-                    <small class="text-muted">Pending Balance</small>
-                  <% } %>
-                </div>
-              </div>
-            </div>
-
-            <!-- Events Card -->
-            <div class="col-6 col-sm-6">
-              <div class="card border-0 shadow-sm rounded-4 p-3 hover-lift position-relative accent-border border-primary overflow-hidden">
-                <a href="/events/<%= student.rollNo %>" class="stretched-link"></a>
-                <i class="bi bi-calendar-event card-icon-float text-primary" style="font-size: 4rem;"></i>
-                <div class="d-flex align-items-center card-content-z">
-                  <div class="bg-primary bg-opacity-10 text-primary rounded-3 d-flex align-items-center justify-content-center me-3" style="width: 45px; height: 45px">
-                    <i class="bi bi-calendar-event fs-5"></i>
-                  </div>
-                  <div>
-                    <h6 class="text-muted fw-bold text-uppercase small mb-1">Events</h6>
-                    <h4 class="fw-bold text-dark mb-0"><%= profile.activities.filter(act => act.type === 'Event').length %> <span class="fs-6 text-muted fw-normal">joined</span></h4>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Clubs Card -->
-            <div class="col-6 col-sm-6">
-              <div class="card border-0 shadow-sm rounded-4 p-3 hover-lift position-relative accent-border border-warning overflow-hidden">
-                <a href="/clubs/<%= student.rollNo %>" class="stretched-link"></a>
-                <i class="bi bi-people card-icon-float text-warning" style="font-size: 4rem;"></i>
-                <div class="d-flex align-items-center card-content-z">
-                  <div class="bg-warning bg-opacity-10 text-warning rounded-3 d-flex align-items-center justify-content-center me-3" style="width: 45px; height: 45px">
-                    <i class="bi bi-people fs-5"></i>
-                  </div>
-                  <div>
-                    <h6 class="text-muted fw-bold text-uppercase small mb-1">Clubs</h6>
-                    <h4 class="fw-bold text-dark mb-0"><%= profile.activities.filter(act => act.type === 'Club').length %> <span class="fs-6 text-muted fw-normal">joined</span></h4>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <h5 class="fw-bold text-dark mb-3 mt-4">Quick Actions</h5>
-          <div class="row g-3">
-            <div class="col-md-4">
-              <a href="#" class="text-decoration-none">
-                <div class="card border-0 bg-white shadow-sm rounded-4 p-3 hover-lift d-flex flex-column align-items-center text-center h-100">
-                  <div class="bg-primary bg-opacity-10 rounded-circle p-3 mb-2 text-primary"><i class="bi bi-journal-text fs-4"></i></div>
-                  <h6 class="fw-bold text-dark mb-1">Exam Results</h6>
-                  <small class="text-muted">View Grades</small>
-                </div>
-              </a>
-            </div>
-            <div class="col-md-4">
-              <a href="#" class="text-decoration-none">
-                <div class="card border-0 bg-white shadow-sm rounded-4 p-3 hover-lift d-flex flex-column align-items-center text-center h-100">
-                  <div class="bg-success bg-opacity-10 rounded-circle p-3 mb-2 text-success"><i class="bi bi-card-heading fs-4"></i></div>
-                  <h6 class="fw-bold text-dark mb-1">Digital ID</h6>
-                  <small class="text-muted">Download Card</small>
-                </div>
-              </a>
-            </div>
-            <div class="col-md-4">
-              <a href="/account/<%= student.rollNo %>" class="text-decoration-none">
-                <div class="card border-0 bg-white shadow-sm rounded-4 p-3 hover-lift d-flex flex-column align-items-center text-center h-100">
-                  <div class="bg-secondary bg-opacity-10 rounded-circle p-3 mb-2 text-secondary"><i class="bi bi-gear fs-4"></i></div>
-                  <h6 class="fw-bold text-dark mb-1">Settings</h6>
-                  <small class="text-muted">Manage Profile</small>
-                </div>
-              </a>
-            </div>
-          </div>
+                    <% let progressColor = att.percentage >= 75 ? ' bg-success' : (att.percentage>= 60 ? 'bg-warning' :
+              'bg-danger'); %>
+              <div class="progress-bar <%= progressColor %> progress-bar-striped progress-bar-animated"
+                style="width: <%= att.percentage %>%"></div>
         </div>
+      </div>
+  </div>
+  </div>
 
-        <!-- RIGHT COLUMN: Notice Board -->
-        <div class="col-lg-4 mt-4 mt-lg-0">
-          <h5 class="fw-bold text-dark mb-3">Campus Board</h5>
-          
-          <div class="card border-0 shadow-sm rounded-4 p-4 h-100 bg-white">
-            <div class="d-flex align-items-center mb-4 pb-3 border-bottom">
-              <div class="bg-warning bg-opacity-10 text-warning rounded-circle d-flex align-items-center justify-content-center me-2" style="width: 35px; height: 35px">
-                <i class="bi bi-megaphone-fill fs-5"></i>
-              </div>
-              <h6 class="fw-bold mb-0 text-dark">Latest Announcements</h6>
-            </div>
-            
-            <div class="position-relative ps-3 border-start border-2 border-light ms-2 mt-2">
-              
-              <!-- Timeline Item 1 -->
-              <div class="mb-4 position-relative">
-                <span class="position-absolute top-0 start-0 bg-primary rounded-circle border border-white border-2 timeline-dot"></span>
-                <div class="ms-3">
-                  <h6 class="fw-bold mb-1 text-dark">Semester Exams Announced</h6>
-                  <p class="text-muted small mb-2">Hall tickets will be available starting next Monday via the Quick Actions panel.</p>
-                  <span class="badge bg-light text-muted small"><i class="bi bi-clock me-1"></i>2 hours ago</span>
-                </div>
-              </div>
-              
-              <!-- Timeline Item 2 -->
-              <div class="mb-4 position-relative">
-                <span class="position-absolute top-0 start-0 bg-danger rounded-circle border border-white border-2 timeline-dot"></span>
-                <div class="ms-3">
-                  <h6 class="fw-bold mb-1 text-dark">Fee Payment Deadline</h6>
-                  <p class="text-muted small mb-2">Clear all pending dues before the 15th to avoid automatic late fee penalties.</p>
-                  <span class="badge bg-light text-muted small"><i class="bi bi-clock me-1"></i>1 day ago</span>
-                </div>
-              </div>
-              
-              <!-- Timeline Item 3 -->
-              <div class="position-relative">
-                <span class="position-absolute top-0 start-0 bg-success rounded-circle border border-white border-2 timeline-dot"></span>
-                <div class="ms-3">
-                  <h6 class="fw-bold mb-1 text-dark">Hackathon Registration</h6>
-                  <p class="text-muted small mb-2">Annual coding fest registrations are now open on the Events page.</p>
-                  <span class="badge bg-light text-muted small"><i class="bi bi-clock me-1"></i>2 days ago</span>
-                </div>
-              </div>
-
-            </div>
-            
-            <div class="mt-auto pt-4 text-center">
-              <a href="#" class="btn btn-outline-primary btn-sm rounded-pill px-4 fw-bold w-100">View All Updates</a>
-            </div>
+  <div class="col-sm-6">
+    <div
+      class="card border-0 shadow-sm rounded-4 p-4 h-100 hover-lift position-relative accent-border <%= fee.dueAmount === 0 ? 'border-success' : 'border-danger' %> overflow-hidden">
+      <a href="/fees/<%= student.rollNo %>" class="stretched-link"></a>
+      <i class="bi bi-wallet2 card-icon-float text-<%= fee.dueAmount === 0 ? 'success' : 'danger' %>"></i>
+      <div class="card-content-z">
+        <div class="d-flex align-items-center mb-3">
+          <div
+            class="bg-<%= fee.dueAmount === 0 ? 'success' : 'danger' %> bg-opacity-10 text-<%= fee.dueAmount === 0 ? 'success' : 'danger' %> rounded-circle d-flex align-items-center justify-content-center me-3"
+            style="width: 45px; height: 45px">
+            <i class="bi bi-credit-card fs-5"></i>
           </div>
+          <h6 class="text-muted fw-bold text-uppercase small mb-0">Fee Status</h6>
         </div>
-        
+        <% if (fee.dueAmount===0) { %>
+          <h3 class="fw-bold text-success mb-1 mt-1">Fully Paid</h3>
+          <small class="text-muted">No pending dues</small>
+          <% } else { %>
+            <h3 class="fw-bold text-danger mb-1">₹<%= fee.dueAmount.toLocaleString('en-IN') %>
+            </h3>
+            <small class="text-muted">Pending Balance</small>
+            <% } %>
       </div>
     </div>
+  </div>
 
-    <!-- Mobile Bottom Navigation -->
-    <div class="mobile-bottom-nav d-flex justify-content-around bg-white shadow-lg py-2 fixed-bottom d-md-none border-top z-3">
-      <a href="/dashboard" class="text-center text-decoration-none" style="color: #4f46e5;">
-        <i class="bi bi-house-door-fill d-block fs-4"></i>
-        <span style="font-size: 11px; font-weight: bold;">Home</span>
-      </a>
-      <a href="/fees/<%= student.rollNo %>" class="text-center text-decoration-none text-secondary">
-        <i class="bi bi-wallet2 d-block fs-4"></i>
-        <span style="font-size: 11px; font-weight: bold;">Fees</span>
-      </a>
-      <a href="/account/<%= student.rollNo %>" class="text-center text-decoration-none text-secondary">
-        <i class="bi bi-person d-block fs-4"></i>
-        <span style="font-size: 11px; font-weight: bold;">Profile</span>
+  <div class="col-6 col-sm-6">
+    <div
+      class="card border-0 shadow-sm rounded-4 p-3 hover-lift position-relative accent-border border-primary overflow-hidden">
+      <a href="/events/<%= student.rollNo %>" class="stretched-link"></a>
+      <i class="bi bi-calendar-event card-icon-float text-primary" style="font-size: 4rem;"></i>
+      <div class="d-flex align-items-center card-content-z">
+        <div
+          class="bg-primary bg-opacity-10 text-primary rounded-3 d-flex align-items-center justify-content-center me-3"
+          style="width: 45px; height: 45px">
+          <i class="bi bi-calendar-event fs-5"></i>
+        </div>
+        <div>
+          <h6 class="text-muted fw-bold text-uppercase small mb-1">Events</h6>
+          <h4 class="fw-bold text-dark mb-0"><%= events.length %> <span class="fs-6 text-muted fw-normal">joined</span></h4>
+          <h4 class="fw-bold text-dark mb-0"><%= clubs.length %> <span class="fs-6 text-muted fw-normal">joined</span></h4>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-6 col-sm-6">
+    <div
+      class="card border-0 shadow-sm rounded-4 p-3 hover-lift position-relative accent-border border-warning overflow-hidden">
+      <a href="/clubs/<%= student.rollNo %>" class="stretched-link"></a>
+      <i class="bi bi-people card-icon-float text-warning" style="font-size: 4rem;"></i>
+      <div class="d-flex align-items-center card-content-z">
+        <div
+          class="bg-warning bg-opacity-10 text-warning rounded-3 d-flex align-items-center justify-content-center me-3"
+          style="width: 45px; height: 45px">
+          <i class="bi bi-people fs-5"></i>
+        </div>
+        <div>
+          <h6 class="text-muted fw-bold text-uppercase small mb-1">Clubs</h6>
+          <h4 class="fw-bold text-dark mb-0">
+            <%= acts.filter(act=> act.type === 'Club').length %> <span class="fs-6 text-muted fw-normal">joined</span>
+          </h4>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+
+  <h5 class="fw-bold text-dark mb-3 mt-4">Quick Actions</h5>
+  <div class="row g-3">
+    <div class="col-md-4">
+      <a href="#" class="text-decoration-none">
+        <div
+          class="card border-0 bg-white shadow-sm rounded-4 p-3 hover-lift d-flex flex-column align-items-center text-center h-100">
+          <div class="bg-primary bg-opacity-10 rounded-circle p-3 mb-2 text-primary"><i
+              class="bi bi-journal-text fs-4"></i></div>
+          <h6 class="fw-bold text-dark mb-1">Exam Results</h6>
+          <small class="text-muted">View Grades</small>
+        </div>
       </a>
     </div>
-
-    <!-- Footer -->
-    <footer class="bg-dark text-white py-5 mt-5">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-5 mb-4">
-            <h5 class="fw-bold text-uppercase mb-3" style="letter-spacing: 1px; color: #818cf8;">
-              <i class="bi bi-mortarboard-fill me-2"></i>GNITC Portal
-            </h5>
-            <p class="text-light opacity-75 pe-md-4">
-              Guru Nanak Institutions Technical Campus.<br />
-              A modern, full-stack campus management system built with Node.js, Express, MongoDB, and Bootstrap.
-            </p>
+    <div class="col-md-4">
+      <a href="#" class="text-decoration-none">
+        <div
+          class="card border-0 bg-white shadow-sm rounded-4 p-3 hover-lift d-flex flex-column align-items-center text-center h-100">
+          <div class="bg-success bg-opacity-10 rounded-circle p-3 mb-2 text-success"><i
+              class="bi bi-card-heading fs-4"></i></div>
+          <h6 class="fw-bold text-dark mb-1">Digital ID</h6>
+          <small class="text-muted">Download Card</small>
+        </div>
+      </a>
+    </div>
+    <div class="col-md-4">
+      <a href="/account/<%= student.rollNo %>" class="text-decoration-none">
+        <div
+          class="card border-0 bg-white shadow-sm rounded-4 p-3 hover-lift d-flex flex-column align-items-center text-center h-100">
+          <div class="bg-secondary bg-opacity-10 rounded-circle p-3 mb-2 text-secondary"><i class="bi bi-gear fs-4"></i>
           </div>
+          <h6 class="fw-bold text-dark mb-1">Settings</h6>
+          <small class="text-muted">Manage Profile</small>
+        </div>
+      </a>
+    </div>
+  </div>
+  </div>
 
-          <div class="col-md-3 mb-4">
-            <h5 class="fw-bold mb-3">Quick Links</h5>
-            <ul class="list-unstyled">
-              <li class="mb-2"><a href="/dashboard" class="text-light opacity-75 text-decoration-none hover-lift d-inline-block">Dashboard</a></li>
-              <li class="mb-2"><a href="/attendance/<%= student.rollNo %>" class="text-light opacity-75 text-decoration-none hover-lift d-inline-block">Attendance</a></li>
-              <li class="mb-2"><a href="/fees/<%= student.rollNo %>" class="text-light opacity-75 text-decoration-none hover-lift d-inline-block">Fee Details</a></li>
-              <li class="mb-2"><a href="/faculty-login" class="text-light opacity-75 text-decoration-none hover-lift d-inline-block">Faculty Portal</a></li>
-            </ul>
-          </div>
+  <div class="col-lg-4 mt-4 mt-lg-0">
+    <h5 class="fw-bold text-dark mb-3">Campus Board</h5>
 
-          <div class="col-md-4 mb-4">
-            <h5 class="fw-bold mb-3">Developer</h5>
-            <p class="text-light opacity-75 mb-1">
-              <strong>Hari Prasad Goud</strong>
-            </p>
-            <p class="text-light opacity-75 mb-3 small">
-              B.Tech in Computer Science and Engineering
-            </p>
-            <div class="d-flex gap-3 mt-2">
-              <a href="#" class="text-white opacity-75 text-decoration-none fs-4 hover-lift d-inline-block"><i class="bi bi-github"></i></a>
-              <a href="#" class="text-white opacity-75 text-decoration-none fs-4 hover-lift d-inline-block"><i class="bi bi-linkedin"></i></a>
-              <a href="#" class="text-white opacity-75 text-decoration-none fs-4 hover-lift d-inline-block"><i class="bi bi-envelope"></i></a>
-            </div>
+    <div class="card border-0 shadow-sm rounded-4 p-4 h-100 bg-white">
+      <div class="d-flex align-items-center mb-4 pb-3 border-bottom">
+        <div
+          class="bg-warning bg-opacity-10 text-warning rounded-circle d-flex align-items-center justify-content-center me-2"
+          style="width: 35px; height: 35px">
+          <i class="bi bi-megaphone-fill fs-5"></i>
+        </div>
+        <h6 class="fw-bold mb-0 text-dark">Latest Announcements</h6>
+      </div>
+
+      <div class="position-relative ps-3 border-start border-2 border-light ms-2 mt-2">
+
+        <div class="mb-4 position-relative">
+          <span
+            class="position-absolute top-0 start-0 bg-primary rounded-circle border border-white border-2 timeline-dot"></span>
+          <div class="ms-3">
+            <h6 class="fw-bold mb-1 text-dark">Semester Exams Announced</h6>
+            <p class="text-muted small mb-2">Hall tickets will be available starting next Monday via the Quick Actions
+              panel.</p>
+            <span class="badge bg-light text-muted small"><i class="bi bi-clock me-1"></i>2 hours ago</span>
           </div>
         </div>
-        <hr class="border-secondary opacity-25 my-4" />
-        <div class="text-center">
-          <p class="text-light opacity-50 mb-0 small">
-            &copy; 2026 GNITC Student Portal. Developed by Hari Prasad Goud. All Rights Reserved.
+
+        <div class="mb-4 position-relative">
+          <span
+            class="position-absolute top-0 start-0 bg-danger rounded-circle border border-white border-2 timeline-dot"></span>
+          <div class="ms-3">
+            <h6 class="fw-bold mb-1 text-dark">Fee Payment Deadline</h6>
+            <p class="text-muted small mb-2">Clear all pending dues before the 15th to avoid automatic late fee
+              penalties.</p>
+            <span class="badge bg-light text-muted small"><i class="bi bi-clock me-1"></i>1 day ago</span>
+          </div>
+        </div>
+
+        <div class="position-relative">
+          <span
+            class="position-absolute top-0 start-0 bg-success rounded-circle border border-white border-2 timeline-dot"></span>
+          <div class="ms-3">
+            <h6 class="fw-bold mb-1 text-dark">Hackathon Registration</h6>
+            <p class="text-muted small mb-2">Annual coding fest registrations are now open on the Events page.</p>
+            <span class="badge bg-light text-muted small"><i class="bi bi-clock me-1"></i>2 days ago</span>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="mt-auto pt-4 text-center">
+        <a href="#" class="btn btn-outline-primary btn-sm rounded-pill px-4 fw-bold w-100">View All Updates</a>
+      </div>
+    </div>
+  </div>
+
+  </div>
+  </div>
+
+  <div
+    class="mobile-bottom-nav d-flex justify-content-around bg-white shadow-lg py-2 fixed-bottom d-md-none border-top z-3">
+    <a href="/dashboard" class="text-center text-decoration-none" style="color: #4f46e5;">
+      <i class="bi bi-house-door-fill d-block fs-4"></i>
+      <span style="font-size: 11px; font-weight: bold;">Home</span>
+    </a>
+    <a href="/fees/<%= student.rollNo %>" class="text-center text-decoration-none text-secondary">
+      <i class="bi bi-wallet2 d-block fs-4"></i>
+      <span style="font-size: 11px; font-weight: bold;">Fees</span>
+    </a>
+    <a href="/account/<%= student.rollNo %>" class="text-center text-decoration-none text-secondary">
+      <i class="bi bi-person d-block fs-4"></i>
+      <span style="font-size: 11px; font-weight: bold;">Profile</span>
+    </a>
+  </div>
+
+  <footer class="bg-dark text-white py-5 mt-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-5 mb-4">
+          <h5 class="fw-bold text-uppercase mb-3" style="letter-spacing: 1px; color: #818cf8;">
+            <i class="bi bi-mortarboard-fill me-2"></i>GNITC Portal
+          </h5>
+          <p class="text-light opacity-75 pe-md-4">
+            Guru Nanak Institutions Technical Campus.<br />
+            A modern, full-stack campus management system built with Node.js, Express, MongoDB, and Bootstrap.
           </p>
         </div>
-      </div>
-    </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-  </body>
+        <div class="col-md-3 mb-4">
+          <h5 class="fw-bold mb-3">Quick Links</h5>
+          <ul class="list-unstyled">
+            <li class="mb-2"><a href="/dashboard"
+                class="text-light opacity-75 text-decoration-none hover-lift d-inline-block">Dashboard</a></li>
+            <li class="mb-2"><a href="/attendance/<%= student.rollNo %>"
+                class="text-light opacity-75 text-decoration-none hover-lift d-inline-block">Attendance</a></li>
+            <li class="mb-2"><a href="/fees/<%= student.rollNo %>"
+                class="text-light opacity-75 text-decoration-none hover-lift d-inline-block">Fee Details</a></li>
+            <li class="mb-2"><a href="/faculty-login"
+                class="text-light opacity-75 text-decoration-none hover-lift d-inline-block">Faculty Portal</a></li>
+          </ul>
+        </div>
+
+        <div class="col-md-4 mb-4">
+          <h5 class="fw-bold mb-3">Developer</h5>
+          <p class="text-light opacity-75 mb-1">
+            <strong>Hari Prasad Goud</strong>
+          </p>
+          <p class="text-light opacity-75 mb-3 small">
+            B.Tech in Computer Science and Engineering
+          </p>
+          <div class="d-flex gap-3 mt-2">
+            <a href="#" class="text-white opacity-75 text-decoration-none fs-4 hover-lift d-inline-block"><i
+                class="bi bi-github"></i></a>
+            <a href="#" class="text-white opacity-75 text-decoration-none fs-4 hover-lift d-inline-block"><i
+                class="bi bi-linkedin"></i></a>
+            <a href="#" class="text-white opacity-75 text-decoration-none fs-4 hover-lift d-inline-block"><i
+                class="bi bi-envelope"></i></a>
+          </div>
+        </div>
+      </div>
+      <hr class="border-secondary opacity-25 my-4" />
+      <div class="text-center">
+        <p class="text-light opacity-50 mb-0 small">
+          &copy; 2026 GNITC Student Portal. Developed by Hari Prasad Goud. All Rights Reserved.
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
 </html>

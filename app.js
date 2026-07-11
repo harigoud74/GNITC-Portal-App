@@ -1,45 +1,36 @@
 const express = require("express");
 const path = require("path");
 
+// 1. Database Connection
 const connectDB = require("./models/db");
-const StudentAuth = require("./models/StudentAuth");
+
+// 2. Route Imports
 const homeRoutes = require("./routes/homeRoutes");
 const authRoutes = require("./routes/authentication");
-const facultyRoutes = require("./routes/faculty");
+const facultyRoutes = require("./routes/faculty"); // Our new modular router
 
-// 2. Initialize App
+// 3. Initialize App
 const app = express();
 const port = 3000;
 
-// 3. Connect to Database
+// 4. Connect to Database
 connectDB();
 
-// 4. App Configuration (Settings)
+// 5. App Configuration (Settings)
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
-// 5. Global Middleware
+// 6. Global Middleware
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 
-// 6. Routes
+// 7. Mount Routes
 app.use("/", homeRoutes);
 app.use("/", authRoutes);
 app.use("/faculty", facultyRoutes);
 
-// (Optional) Standalone Route
-app.get("/students", async (req, res) => {
-  try {
-    const students = await StudentAuth.find();
-    res.render("allStudents", {students});
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Error fetching students");
-  }
-});
-
-// 7. Start the Server
+// 8. Start the Server
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
