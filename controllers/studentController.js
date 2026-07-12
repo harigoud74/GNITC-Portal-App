@@ -58,7 +58,6 @@ exports.loginStudent = async (req, res) => {
 exports.getDashboard = async (req, res) => {
   try {
     const student = await StudentAuth.findOne({rollNo: req.params.rollNo});
-
     const profile = await StudentProfile.findOne({rollNo: req.params.rollNo})
       .populate("joinedClubs")
       .populate("registeredEvents")
@@ -66,7 +65,27 @@ exports.getDashboard = async (req, res) => {
 
     if (!student || !profile) return res.send("Profile not found.");
 
-    // Create the 'acts' variable for the EJS view
+    // --- MANUAL OVERRIDE SYNC LOGIC ---
+    let totalClasses = profile.attendance?.totalClasses || 0;
+    let classesAttended = profile.attendance?.classesAttended || 0;
+    let overallAttendance = profile.attendance?.percentage || 0;
+
+    // Fall back to dynamic subject math ONLY if manual override is 0
+    if (
+      totalClasses === 0 &&
+      profile.academicRecords &&
+      profile.academicRecords.length > 0
+    ) {
+      profile.academicRecords.forEach((record) => {
+        totalClasses += record.total || 0;
+        classesAttended += record.attended || 0;
+      });
+
+      if (totalClasses > 0) {
+        overallAttendance = Math.round((classesAttended / totalClasses) * 100);
+      }
+    }
+
     const acts = [
       ...profile.joinedClubs.map((c) => ({...c.toObject(), type: "Club"})),
       ...profile.registeredEvents.map((e) => ({
@@ -75,7 +94,12 @@ exports.getDashboard = async (req, res) => {
       })),
     ];
 
-    res.render("studentProfile", {student, profile, acts}); // Pass 'acts' here!
+    res.render("studentProfile", {
+      student,
+      profile,
+      acts,
+      dynamicAttendance: overallAttendance,
+    });
   } catch (error) {
     console.error("🚨 DASHBOARD CRASH MAP:", error);
     res.status(500).send("Dashboard Error");
@@ -123,6 +147,7 @@ exports.getCheckout = async (req, res) => {
 exports.processPayment = async (req, res) => {
   try {
     const paymentAmount = Number(req.body.paymentAmount) || 0;
+    const paymentMethod = req.body.paymentMethod || "Net Banking";
     const profile = await StudentProfile.findOne({rollNo: req.params.rollNo});
 
     // Safely calculate new amounts
@@ -132,6 +157,10 @@ exports.processPayment = async (req, res) => {
     const newAmountPaid = currentPaid + paymentAmount;
     const newDueAmount = Math.max(0, totalFees - newAmountPaid);
 
+    // Generate a mock Bank Transaction ID (e.g., TXN849302)
+    const mockTxnId = "TXN" + Math.floor(100000 + Math.random() * 900000);
+
+    // Update the balances AND push the new receipt to the history log
     await StudentProfile.findOneAndUpdate(
       {rollNo: req.params.rollNo},
       {
@@ -139,10 +168,18 @@ exports.processPayment = async (req, res) => {
           "fees.amountPaid": newAmountPaid,
           "fees.dueAmount": newDueAmount,
         },
+        $push: {
+          "fees.transactions": {
+            amount: paymentAmount,
+            paymentMethod: paymentMethod,
+            transactionId: mockTxnId,
+          },
+        },
       },
     );
 
-    res.redirect(`/fees/${req.params.rollNo}`);
+    // Redirect back to fees with a success flag
+    res.redirect(`/fees/${req.params.rollNo}?payment=success`);
   } catch (error) {
     console.error("🚨 PAYMENT PROCESS CRASH:", error);
     res.status(500).send("Payment Processing Failed");
@@ -229,6 +266,46 @@ exports.getClubs = async (req, res) => {
     });
   } catch (error) {
     console.error("🚨 CLUBS PAGE CRASH:", error);
+    res.status(500).send("Server Error");
+  }
+};
+
+// --- DETAILED ATTENDANCE PAGE ---
+exports.getAttendance = async (req, res) => {
+  try {
+    const student = await StudentAuth.findOne({rollNo: req.params.rollNo});
+    const profile = await StudentProfile.findOne({
+      rollNo: req.params.rollNo,
+    }).populate("academicRecords");
+
+    if (!student || !profile) return res.send("Profile data not found.");
+
+    // Dynamic Math Logic
+    let totalClasses = profile.attendance?.totalClasses || 0;
+    let classesAttended = profile.attendance?.classesAttended || 0;
+    let overallAttendance = profile.attendance?.percentage || 0;
+
+    if (
+      totalClasses === 0 &&
+      profile.academicRecords &&
+      profile.academicRecords.length > 0
+    ) {
+      profile.academicRecords.forEach((record) => {
+        totalClasses += record.total || 0;
+        classesAttended += record.attended || 0;
+      });
+      if (totalClasses > 0) {
+        overallAttendance = Math.round((classesAttended / totalClasses) * 100);
+      }
+    }
+
+    res.render("attendance", {
+      student,
+      profile,
+      dynamicAttendance: overallAttendance,
+    });
+  } catch (error) {
+    console.error("🚨 DETAILED ATTENDANCE CRASH:", error);
     res.status(500).send("Server Error");
   }
 };

@@ -20,8 +20,8 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <% if (students && students.length> 0) { %>
-                        <% students.forEach(student=> { %>
+                    <% if (students && students.length > 0) { %>
+                        <% students.forEach(student => { %>
                             <tr>
                                 <td class="ps-4">
                                     <span class="badge bg-secondary">
@@ -36,20 +36,21 @@
                                         <%= student.studentAccountId ? student.studentAccountId.email : 'N/A' %>
                                     </small>
                                 </td>
+                                
                                 <td>
                                     <button type="button" class="btn btn-sm btn-light border update-attendance-btn"
                                         data-bs-toggle="modal" data-bs-target="#attendanceModal"
                                         data-rollno="<%= student.rollNo %>"
-                                        data-total="<%= student.attendance.totalClasses %>"
-                                        data-attended="<%= student.attendance.classesAttended %>"
+                                        data-total="<%= student.dynamicTotalClasses %>"
+                                        data-attended="<%= student.dynamicClassesAttended %>"
                                         title="Update Attendance">
                                         <i class="bi bi-calendar-check text-primary"></i>
                                     </button>
                                     <small class="text-muted">
-                                        <%= student.attendance.classesAttended %> / <%= student.attendance.totalClasses
-                                                %> Classes
+                                        <%= student.dynamicClassesAttended %> / <%= student.dynamicTotalClasses %> Classes
                                     </small>
                                 </td>
+
                                 <td>
                                     <button type="button" class="btn btn-sm btn-light border update-fee-btn"
                                         data-bs-toggle="modal" data-bs-target="#feeModal"
@@ -71,20 +72,21 @@
                                     </div>
                                 </td>
                             </tr>
-                            <% }) %>
-                                <% } else { %>
-                                    <tr>
-                                        <td colspan="5" class="text-center py-5 text-muted">
-                                            <i class="bi bi-inbox fs-2 d-block mb-2"></i>
-                                            No student records found in the database.
-                                        </td>
-                                    </tr>
-                                    <% } %>
+                        <% }) %>
+                    <% } else { %>
+                        <tr>
+                            <td colspan="5" class="text-center py-5 text-muted">
+                                <i class="bi bi-inbox fs-2 d-block mb-2"></i>
+                                No student records found in the database.
+                            </td>
+                        </tr>
+                    <% } %>
                 </tbody>
             </table>
         </div>
     </div>
 </div>
+
 <div class="modal fade" id="attendanceModal" tabindex="-1" aria-labelledby="attendanceModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content border-0 shadow">
@@ -129,6 +131,7 @@
         </div>
     </div>
 </div>
+
 <div class="modal fade" id="feeModal" tabindex="-1" aria-labelledby="feeModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content border-0 shadow">
@@ -167,19 +170,17 @@
         </div>
     </div>
 </div>
+
 <script>
     document.getElementById('studentSearch').addEventListener('keyup', function () {
         let searchQuery = this.value.toLowerCase();
         let tableRows = document.querySelectorAll('tbody tr');
 
         tableRows.forEach(row => {
-            // Check if the row contains standard student data (ignore the "No records" row)
             if (row.cells.length > 1) {
-                // Grab the text from the Roll No (column 0) and Name (column 1)
                 let rollNo = row.cells[0].textContent.toLowerCase();
                 let nameText = row.cells[1].textContent.toLowerCase();
 
-                // If the search query exists in either, show the row. Otherwise, hide it.
                 if (rollNo.includes(searchQuery) || nameText.includes(searchQuery)) {
                     row.style.display = '';
                 } else {
@@ -189,23 +190,20 @@
         });
     });
 
-    // Modal Data Population Logic
     const attendanceBtns = document.querySelectorAll('.update-attendance-btn');
     attendanceBtns.forEach(btn => {
         btn.addEventListener('click', function () {
-            // Get data from button
             const rollNo = this.getAttribute('data-rollno');
             const total = this.getAttribute('data-total');
             const attended = this.getAttribute('data-attended');
 
-            // Inject into modal
             document.getElementById('modalRollNo').value = rollNo;
             document.getElementById('displayRollNo').value = rollNo;
             document.getElementById('modalTotal').value = total;
             document.getElementById('modalAttended').value = attended;
         });
     });
-    // Fee Modal Data Population Logic
+
     const feeBtns = document.querySelectorAll('.update-fee-btn');
     feeBtns.forEach(btn => {
         btn.addEventListener('click', function() {

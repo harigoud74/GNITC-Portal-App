@@ -30,6 +30,9 @@ app.use("/", homeRoutes);
 app.use("/", authRoutes);
 app.use("/faculty", facultyRoutes);
 
+app.get("/AboutInstitution", (req, res) => {
+  res.render("AboutInstitution");
+});
 // 8. Start the Server
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);

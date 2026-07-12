@@ -15,9 +15,9 @@ router.get("/student-logout", (req, res) => res.redirect("/student-login"));
 
 // --- DASHBOARD & ACADEMICS ---
 router.get("/dashboard/:rollNo", ctrl.getDashboard);
-router.get("/attendance/:rollNo", (req, res) =>
-  res.render("attendance", {rollNo: req.params.rollNo}),
-);
+
+// ✨ THE UPDATED ROUTE ✨
+router.get("/attendance/:rollNo", ctrl.getAttendance);
 
 // --- FINANCIAL ---
 router.get("/fees/:rollNo", ctrl.getFees);

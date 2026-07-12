@@ -63,20 +63,44 @@ exports.getOverview = async (req, res) => {
 
 exports.renderDirectory = async (req, res) => {
   try {
-    // Fetch all students and populate their profiles
-    const students = await StudentProfile.find().populate("studentAccountId");
+    const students = await StudentProfile.find()
+      .populate("studentAccountId")
+      .populate("academicRecords");
+
+    const dynamicStudents = students.map((student) => {
+      // 1. Look for the manual override from the Faculty Modal first
+      let total = student.attendance?.totalClasses || 0;
+      let attended = student.attendance?.classesAttended || 0;
+
+      // 2. If manual is 0, calculate the subjects dynamically
+      if (
+        total === 0 &&
+        student.academicRecords &&
+        student.academicRecords.length > 0
+      ) {
+        student.academicRecords.forEach((record) => {
+          total += record.total || 0;
+          attended += record.attended || 0;
+        });
+      }
+
+      return {
+        ...student.toObject(),
+        dynamicTotalClasses: total,
+        dynamicClassesAttended: attended,
+      };
+    });
 
     res.render("faculty/layout", {
       body: "directory",
       title: "Student Directory",
-      students,
+      students: dynamicStudents,
     });
   } catch (error) {
     console.error(error);
     res.status(500).send("Server Error");
   }
 };
-
 exports.updateAttendance = async (req, res) => {
   try {
     const {rollNo, totalClasses, classesAttended} = req.body;
@@ -110,7 +134,7 @@ exports.updateAttendance = async (req, res) => {
 exports.processFeePayment = async (req, res) => {
   try {
     const {rollNo, paymentAmount} = req.body;
-    const payment = Number(paymentAmount);
+    const payment = Number(paymentAmount) || 0;
 
     const student = await StudentProfile.findOne({rollNo: rollNo});
 
@@ -118,9 +142,17 @@ exports.processFeePayment = async (req, res) => {
       return res.status(404).send("Student not found");
     }
 
-    const newAmountPaid = student.fees.amountPaid + payment;
-    const newDueAmount = Math.max(0, student.fees.totalFees - newAmountPaid);
+    // Force strict math: Current Paid + New Payment
+    const currentPaid = student.fees?.amountPaid || 0;
+    const totalFees = student.fees?.totalFees || 100000;
 
+    const newAmountPaid = currentPaid + payment;
+    const newDueAmount = Math.max(0, totalFees - newAmountPaid);
+
+    // Generate a Faculty Receipt ID
+    const mockTxnId = "FAC-" + Math.floor(10000 + Math.random() * 90000);
+
+    // Update the DB and push to the transaction ledger!
     await StudentProfile.findOneAndUpdate(
       {rollNo: rollNo},
       {
@@ -128,12 +160,19 @@ exports.processFeePayment = async (req, res) => {
           "fees.amountPaid": newAmountPaid,
           "fees.dueAmount": newDueAmount,
         },
+        $push: {
+          "fees.transactions": {
+            amount: payment,
+            paymentMethod: "Manual Faculty Entry",
+            transactionId: mockTxnId,
+          },
+        },
       },
     );
 
     res.redirect("/faculty/students");
   } catch (error) {
-    console.error(error);
+    console.error("🚨 FACULTY PAYMENT CRASH:", error);
     res.status(500).send("Error processing fee payment");
   }
 };

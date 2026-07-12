@@ -14,10 +14,18 @@ const studentProfileSchema = new mongoose.Schema(
       uppercase: true,
     },
     fees: {
-      totalFees: {type: Number, default: 0},
+      totalFees: {type: Number, default: 100000},
       amountPaid: {type: Number, default: 0},
-      dueAmount: {type: Number, default: 0},
-      dueDate: {type: Date},
+      dueAmount: {type: Number, default: 100000},
+      // Add this new transactions array!
+      transactions: [
+        {
+          amount: Number,
+          date: {type: Date, default: Date.now},
+          paymentMethod: String,
+          transactionId: String,
+        },
+      ],
     },
     digitalId: {
       isValid: {type: Boolean, default: false},
