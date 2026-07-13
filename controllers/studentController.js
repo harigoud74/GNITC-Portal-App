@@ -86,7 +86,7 @@ exports.getDashboard = async (req, res) => {
       }
     }
 
-    const acts = [
+    const recentActivities = [
       ...profile.joinedClubs.map((c) => ({...c.toObject(), type: "Club"})),
       ...profile.registeredEvents.map((e) => ({
         ...e.toObject(),
@@ -97,7 +97,7 @@ exports.getDashboard = async (req, res) => {
     res.render("studentProfile", {
       student,
       profile,
-      acts,
+      recentActivities,
       dynamicAttendance: overallAttendance,
     });
   } catch (error) {

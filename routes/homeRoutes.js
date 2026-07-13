@@ -10,7 +10,7 @@ router.get("/", (req, res) => {
 
 // Don't forget to import the model at the top of homeRoutes.js if you haven't!
 
-// The ":rollNo" part acts as a variable wildcard in the URL
+// The ":rollNo" part recentActivities as a variable wildcard in the URL
 router.get("/attendance/:rollNo", async (req, res) => {
   try {
     // 1. Fetch the data and populate the subjects

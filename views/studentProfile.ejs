@@ -132,7 +132,8 @@
               <i class="bi bi-clock me-1"></i> Current Semester
             </span>
           </div>
-          <h1 class="fw-bold mb-2">Hello, <%= student.name.split(' ')[0] %>! 👋</h1>
+          <h1 class="fw-bold mb-2">Hello, <%=
+              student.name.split(' ')[0] %>! 👋</h1>
           <p class="mb-0 fs-5 opacity-75 max-w-75">
             Welcome to your centralized academic control center.
           </p>
@@ -163,12 +164,18 @@
                     </div>
                     <h6 class="text-muted fw-bold text-uppercase small mb-0">Attendance</h6>
                   </div>
-                  <h2 class="fw-bold text-dark mb-2"><%= att.percentage %>%</h2>
+                  <h2 class="fw-bold text-dark mb-2"><%= dynamicAttendance %>%</h2>
                   <div class="progress mt-auto" style="height: 6px; border-radius: 10px;">
-                    <% let progressColor = att.percentage >= 75 ? ' bg-success' : (att.percentage>= 60 ? 'bg-warning' :
-              'bg-danger'); %>
+                    <%
+let progressColor =
+  dynamicAttendance >= 75
+    ? "bg-success"
+    : dynamicAttendance >= 60
+    ? "bg-warning"
+    : "bg-danger";
+%>
               <div class="progress-bar <%= progressColor %> progress-bar-striped progress-bar-animated"
-                style="width: <%= att.percentage %>%"></div>
+                style="width: <%= dynamicAttendance %>%"></div>
         </div>
       </div>
   </div>
@@ -176,108 +183,191 @@
 
   <div class="col-sm-6">
     <div
-      class="card border-0 shadow-sm rounded-4 p-4 h-100 hover-lift position-relative accent-border <%= fee.dueAmount === 0 ? 'border-success' : 'border-danger' %> overflow-hidden">
-      <a href="/fees/<%= student.rollNo %>" class="stretched-link"></a>
-      <i class="bi bi-wallet2 card-icon-float text-<%= fee.dueAmount === 0 ? 'success' : 'danger' %>"></i>
-      <div class="card-content-z">
-        <div class="d-flex align-items-center mb-3">
-          <div
-            class="bg-<%= fee.dueAmount === 0 ? 'success' : 'danger' %> bg-opacity-10 text-<%= fee.dueAmount === 0 ? 'success' : 'danger' %> rounded-circle d-flex align-items-center justify-content-center me-3"
-            style="width: 45px; height: 45px">
-            <i class="bi bi-credit-card fs-5"></i>
+      class="card border-0 shadow-sm rounded-4 p-4 h-100 hover-lift position-relative accent-border <%= fee.dueAmount === 0 ? ' border-success'
+              : 'border-danger' %> overflow-hidden">
+              <a href="/fees/<%= student.rollNo %>" class="stretched-link"></a>
+              <i class="bi bi-wallet2 card-icon-float text-<%= fee.dueAmount === 0 ? 'success' : 'danger' %>"></i>
+              <div class="card-content-z">
+                <div class="d-flex align-items-center mb-3">
+                  <div
+                    class="bg-<%= fee.dueAmount === 0 ? 'success' : 'danger' %> bg-opacity-10 text-<%= fee.dueAmount === 0 ? 'success' : 'danger' %> rounded-circle d-flex align-items-center justify-content-center me-3"
+                    style="width: 45px; height: 45px">
+                    <i class="bi bi-credit-card fs-5"></i>
+                  </div>
+                  <h6 class="text-muted fw-bold text-uppercase small mb-0">Fee Status</h6>
+                </div>
+                <% if (fee.dueAmount===0) { %>
+                  <h3 class="fw-bold text-success mb-1 mt-1">Fully Paid</h3>
+                  <small class="text-muted">No pending dues</small>
+                  <% } else { %>
+                    <h3 class="fw-bold text-danger mb-1">₹<%= fee.dueAmount.toLocaleString('en-IN') %>
+                    </h3>
+                    <small class="text-muted">Pending Balance</small>
+                    <% } %>
+              </div>
+        </div>
+      </div>
+
+      <div class="col-6 col-sm-6">
+        <div
+          class="card border-0 shadow-sm rounded-4 p-3 hover-lift position-relative accent-border border-primary overflow-hidden">
+          <a href="/events/<%= student.rollNo %>" class="stretched-link"></a>
+          <i class="bi bi-calendar-event card-icon-float text-primary" style="font-size: 4rem;"></i>
+          <div class="d-flex align-items-center card-content-z">
+            <div
+              class="bg-primary bg-opacity-10 text-primary rounded-3 d-flex align-items-center justify-content-center me-3"
+              style="width: 45px; height: 45px">
+              <i class="bi bi-calendar-event fs-5"></i>
+            </div>
+            <div>
+              <h6 class="text-muted fw-bold text-uppercase small mb-1">Events</h6>
+              <h4 class="fw-bold text-dark mb-0">
+                <%= events.length %> <span class="fs-6 text-muted fw-normal">joined</span>
+              </h4>
+            </div>
           </div>
-          <h6 class="text-muted fw-bold text-uppercase small mb-0">Fee Status</h6>
         </div>
-        <% if (fee.dueAmount===0) { %>
-          <h3 class="fw-bold text-success mb-1 mt-1">Fully Paid</h3>
-          <small class="text-muted">No pending dues</small>
-          <% } else { %>
-            <h3 class="fw-bold text-danger mb-1">₹<%= fee.dueAmount.toLocaleString('en-IN') %>
-            </h3>
-            <small class="text-muted">Pending Balance</small>
-            <% } %>
       </div>
-    </div>
-  </div>
 
-  <div class="col-6 col-sm-6">
-    <div
-      class="card border-0 shadow-sm rounded-4 p-3 hover-lift position-relative accent-border border-primary overflow-hidden">
-      <a href="/events/<%= student.rollNo %>" class="stretched-link"></a>
-      <i class="bi bi-calendar-event card-icon-float text-primary" style="font-size: 4rem;"></i>
-      <div class="d-flex align-items-center card-content-z">
+      <div class="col-6 col-sm-6">
         <div
-          class="bg-primary bg-opacity-10 text-primary rounded-3 d-flex align-items-center justify-content-center me-3"
-          style="width: 45px; height: 45px">
-          <i class="bi bi-calendar-event fs-5"></i>
-        </div>
-        <div>
-          <h6 class="text-muted fw-bold text-uppercase small mb-1">Events</h6>
-          <h4 class="fw-bold text-dark mb-0"><%= events.length %> <span class="fs-6 text-muted fw-normal">joined</span></h4>
-          <h4 class="fw-bold text-dark mb-0"><%= clubs.length %> <span class="fs-6 text-muted fw-normal">joined</span></h4>
+          class="card border-0 shadow-sm rounded-4 p-3 hover-lift position-relative accent-border border-warning overflow-hidden">
+          <a href="/clubs/<%= student.rollNo %>" class="stretched-link"></a>
+          <i class="bi bi-people card-icon-float text-warning" style="font-size: 4rem;"></i>
+          <div class="d-flex align-items-center card-content-z">
+            <div
+              class="bg-warning bg-opacity-10 text-warning rounded-3 d-flex align-items-center justify-content-center me-3"
+              style="width: 45px; height: 45px">
+              <i class="bi bi-people fs-5"></i>
+            </div>
+            <div>
+              <h6 class="text-muted fw-bold text-uppercase small mb-1">Clubs</h6>
+              <h4 class="fw-bold text-dark mb-0">
+                <%= recentActivities.filter(act=> act.type === 'Club').length %> <span
+                    class="fs-6 text-muted fw-normal">joined</span>
+              </h4>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
-
-  <div class="col-6 col-sm-6">
-    <div
-      class="card border-0 shadow-sm rounded-4 p-3 hover-lift position-relative accent-border border-warning overflow-hidden">
-      <a href="/clubs/<%= student.rollNo %>" class="stretched-link"></a>
-      <i class="bi bi-people card-icon-float text-warning" style="font-size: 4rem;"></i>
-      <div class="d-flex align-items-center card-content-z">
-        <div
-          class="bg-warning bg-opacity-10 text-warning rounded-3 d-flex align-items-center justify-content-center me-3"
-          style="width: 45px; height: 45px">
-          <i class="bi bi-people fs-5"></i>
-        </div>
-        <div>
-          <h6 class="text-muted fw-bold text-uppercase small mb-1">Clubs</h6>
-          <h4 class="fw-bold text-dark mb-0">
-            <%= acts.filter(act=> act.type === 'Club').length %> <span class="fs-6 text-muted fw-normal">joined</span>
-          </h4>
-        </div>
-      </div>
-    </div>
-  </div>
   </div>
 
   <h5 class="fw-bold text-dark mb-3 mt-4">Quick Actions</h5>
-  <div class="row g-3">
-    <div class="col-md-4">
-      <a href="#" class="text-decoration-none">
-        <div
-          class="card border-0 bg-white shadow-sm rounded-4 p-3 hover-lift d-flex flex-column align-items-center text-center h-100">
-          <div class="bg-primary bg-opacity-10 rounded-circle p-3 mb-2 text-primary"><i
-              class="bi bi-journal-text fs-4"></i></div>
-          <h6 class="fw-bold text-dark mb-1">Exam Results</h6>
-          <small class="text-muted">View Grades</small>
+  <div class="row row-cols-2 row-cols-md-4 g-3">
+
+  <!-- My Profile -->
+  <div class="col">
+    <a href="/account/<%= student.rollNo %>" class="text-decoration-none">
+      <div class="card border-0 shadow-sm rounded-4 p-4 text-center hover-lift h-100">
+        <div class="bg-primary bg-opacity-10 text-primary rounded-circle d-inline-flex align-items-center justify-content-center mx-auto mb-3"
+             style="width:65px;height:65px;">
+          <i class="bi bi-person fs-3"></i>
         </div>
-      </a>
-    </div>
-    <div class="col-md-4">
-      <a href="#" class="text-decoration-none">
-        <div
-          class="card border-0 bg-white shadow-sm rounded-4 p-3 hover-lift d-flex flex-column align-items-center text-center h-100">
-          <div class="bg-success bg-opacity-10 rounded-circle p-3 mb-2 text-success"><i
-              class="bi bi-card-heading fs-4"></i></div>
-          <h6 class="fw-bold text-dark mb-1">Digital ID</h6>
-          <small class="text-muted">Download Card</small>
-        </div>
-      </a>
-    </div>
-    <div class="col-md-4">
-      <a href="/account/<%= student.rollNo %>" class="text-decoration-none">
-        <div
-          class="card border-0 bg-white shadow-sm rounded-4 p-3 hover-lift d-flex flex-column align-items-center text-center h-100">
-          <div class="bg-secondary bg-opacity-10 rounded-circle p-3 mb-2 text-secondary"><i class="bi bi-gear fs-4"></i>
-          </div>
-          <h6 class="fw-bold text-dark mb-1">Settings</h6>
-          <small class="text-muted">Manage Profile</small>
-        </div>
-      </a>
-    </div>
+        <h6 class="fw-bold text-dark mb-1">My Profile</h6>
+        <small class="text-muted">Personal Details</small>
+      </div>
+    </a>
   </div>
+
+  <!-- Attendance -->
+  <div class="col">
+    <a href="/attendance/<%= student.rollNo %>" class="text-decoration-none">
+      <div class="card border-0 shadow-sm rounded-4 p-4 text-center hover-lift h-100">
+        <div class="bg-success bg-opacity-10 text-success rounded-circle d-inline-flex align-items-center justify-content-center mx-auto mb-3"
+             style="width:65px;height:65px;">
+          <i class="bi bi-graph-up-arrow fs-3"></i>
+        </div>
+        <h6 class="fw-bold text-dark mb-1">Attendance</h6>
+        <small class="text-muted">View Attendance</small>
+      </div>
+    </a>
+  </div>
+
+  <!-- Academics -->
+  <div class="col">
+    <a href="#" class="text-decoration-none">
+      <div class="card border-0 shadow-sm rounded-4 p-4 text-center hover-lift h-100">
+        <div class="bg-info bg-opacity-10 text-info rounded-circle d-inline-flex align-items-center justify-content-center mx-auto mb-3"
+             style="width:65px;height:65px;">
+          <i class="bi bi-journal-bookmark fs-3"></i>
+        </div>
+        <h6 class="fw-bold text-dark mb-1">Academics</h6>
+        <small class="text-muted">Coming Soon</small>
+      </div>
+    </a>
+  </div>
+
+  <!-- Fees -->
+  <div class="col">
+    <a href="/fees/<%= student.rollNo %>" class="text-decoration-none">
+      <div class="card border-0 shadow-sm rounded-4 p-4 text-center hover-lift h-100">
+        <div class="bg-danger bg-opacity-10 text-danger rounded-circle d-inline-flex align-items-center justify-content-center mx-auto mb-3"
+             style="width:65px;height:65px;">
+          <i class="bi bi-credit-card fs-3"></i>
+        </div>
+        <h6 class="fw-bold text-dark mb-1">Fees</h6>
+        <small class="text-muted">Payment Details</small>
+      </div>
+    </a>
+  </div>
+
+  <!-- Events -->
+  <div class="col">
+    <a href="/events/<%= student.rollNo %>" class="text-decoration-none">
+      <div class="card border-0 shadow-sm rounded-4 p-4 text-center hover-lift h-100">
+        <div class="bg-warning bg-opacity-10 text-warning rounded-circle d-inline-flex align-items-center justify-content-center mx-auto mb-3"
+             style="width:65px;height:65px;">
+          <i class="bi bi-calendar-event fs-3"></i>
+        </div>
+        <h6 class="fw-bold text-dark mb-1">Events</h6>
+        <small class="text-muted">Campus Events</small>
+      </div>
+    </a>
+  </div>
+
+  <!-- Clubs -->
+  <div class="col">
+    <a href="/clubs/<%= student.rollNo %>" class="text-decoration-none">
+      <div class="card border-0 shadow-sm rounded-4 p-4 text-center hover-lift h-100">
+        <div class="bg-secondary bg-opacity-10 text-secondary rounded-circle d-inline-flex align-items-center justify-content-center mx-auto mb-3"
+             style="width:65px;height:65px;">
+          <i class="bi bi-people fs-3"></i>
+        </div>
+        <h6 class="fw-bold text-dark mb-1">Clubs</h6>
+        <small class="text-muted">Student Clubs</small>
+      </div>
+    </a>
+  </div>
+
+  <!-- Digital ID -->
+  <div class="col">
+    <a href="#" class="text-decoration-none">
+      <div class="card border-0 shadow-sm rounded-4 p-4 text-center hover-lift h-100">
+        <div class="bg-dark bg-opacity-10 text-dark rounded-circle d-inline-flex align-items-center justify-content-center mx-auto mb-3"
+             style="width:65px;height:65px;">
+          <i class="bi bi-person-vcard fs-3"></i>
+        </div>
+        <h6 class="fw-bold text-dark mb-1">Digital ID</h6>
+        <small class="text-muted">Coming Soon</small>
+      </div>
+    </a>
+  </div>
+
+  <!-- Settings -->
+  <div class="col">
+    <a href="/account/<%= student.rollNo %>" class="text-decoration-none">
+      <div class="card border-0 shadow-sm rounded-4 p-4 text-center hover-lift h-100">
+        <div class="bg-primary bg-opacity-10 text-primary rounded-circle d-inline-flex align-items-center justify-content-center mx-auto mb-3"
+             style="width:65px;height:65px;">
+          <i class="bi bi-gear fs-3"></i>
+        </div>
+        <h6 class="fw-bold text-dark mb-1">Settings</h6>
+        <small class="text-muted">Account Settings</small>
+      </div>
+    </a>
+  </div>
+
+</div>
   </div>
 
   <div class="col-lg-4 mt-4 mt-lg-0">
