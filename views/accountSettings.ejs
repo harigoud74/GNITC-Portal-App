@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,186 +8,1141 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" />
   <style>
-    body { background-color: #f4f6f8; }
-    .nav-pills .nav-link { color: #6c757d; border-radius: 8px; font-weight: 600; padding: 12px 20px; transition: all 0.2s;}
-    .nav-pills .nav-link.active { background-color: #4f46e5; color: white; box-shadow: 0 4px 6px rgba(79, 70, 229, 0.2); }
-    .nav-pills .nav-link:hover:not(.active) { background-color: #e9ecef; }
-    .form-control:focus { border-color: #4f46e5; box-shadow: 0 0 0 0.25rem rgba(79, 70, 229, 0.25); }
-    .avatar-wrapper { position: relative; display: inline-block; }
-    .avatar-edit { position: absolute; bottom: 0; right: 0; background: #fff; border-radius: 50%; padding: 6px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); cursor: pointer; color: #4f46e5;}
-  </style>
-</head>
-<body>
+    body {
+        background-color: #f4f6f8;
+    }
 
-  <nav class="navbar navbar-light bg-white shadow-sm mb-5">
+    /* Navigation Tabs */
+    .nav-pills .nav-link {
+        color: #6c757d;
+        border-radius: 8px;
+        font-weight: 600;
+        padding: 12px 20px;
+        transition: all 0.25s ease;
+    }
+
+    .nav-pills .nav-link.active {
+        background-color: #4f46e5;
+        color: #fff;
+        box-shadow: 0 4px 10px rgba(79, 70, 229, 0.2);
+    }
+
+    .nav-pills .nav-link:hover:not(.active) {
+        background-color: #e9ecef;
+    }
+
+    /* Form */
+    .form-control:focus {
+        border-color: #4f46e5;
+        box-shadow: 0 0 0 .25rem rgba(79, 70, 229, .2);
+    }
+
+    /* Cards */
+    .card {
+        transition: .3s;
+        border: none;
+        border-radius: 15px;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 30px rgba(0, 0, 0, .12) !important;
+    }
+
+    /* Buttons */
+    .btn {
+        transition: .25s;
+    }
+
+    .btn:hover {
+        transform: translateY(-2px);
+    }
+
+    /* Progress */
+    .progress {
+        border-radius: 20px;
+    }
+
+    /* List */
+    .list-group-item {
+        font-weight: 600;
+    }
+
+    /* Statistics Cards */
+    .stat-card {
+        background: #fff;
+        cursor: pointer;
+        transition: .3s;
+    }
+
+    .stat-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 12px 25px rgba(0,0,0,.12);
+        border-color: #0d6efd !important;
+    }
+
+    .stat-card h3,
+    .stat-card h4 {
+        margin-bottom: 4px;
+        font-weight: 700;
+    }
+
+    .stat-card small {
+        font-size: .9rem;
+    }
+
+    /* Avatar Edit Button */
+    .avatar-wrapper {
+        position: relative;
+        display: inline-block;
+    }
+
+    .avatar-edit {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        background: #fff;
+        border-radius: 50%;
+        padding: 6px;
+        color: #4f46e5;
+        cursor: pointer;
+        box-shadow: 0 3px 10px rgba(0,0,0,.15);
+    }
+
+    /* =====================================
+       PROFILE IMAGE
+    ====================================== */
+
+    .profile-image-container {
+        width: 100%;
+        background: #f8f9fa;
+        text-align: center;
+        padding: 20px 0 10px;
+    }
+
+    .avatar-img {
+        width: 95px;
+        height: 115px;
+        object-fit: cover;
+        object-position: center 15%;
+        border-radius: 14px;
+        border: 4px solid #fff;
+        box-shadow: 0 8px 20px rgba(0,0,0,.18);
+        transition: .3s;
+    }
+
+    .avatar-img:hover {
+        transform: scale(1.05);
+    }
+
+    .student-photo {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center top;
+    }
+
+    .student-placeholder {
+        width: 80x;
+        height: 100px;
+        margin: auto;
+        border-radius: 14px;
+        background: linear-gradient(135deg,#2563eb,#1d4ed8);
+        color: white;
+        font-size: 42px;
+        font-weight: bold;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 4px solid white;
+        box-shadow: 0 8px 20px rgba(0,0,0,.18);
+    }
+
+    /* Student Details */
+    .student-name {
+        font-size: 1.3rem;
+        font-weight: 700;
+        margin-top: 12px;
+    }
+
+    .student-roll {
+        font-size: .95rem;
+        color: #6c757d;
+    }
+
+    .student-dept {
+        font-size: .9rem;
+        color: #6c757d;
+    }
+    .student-photo{
+    width:95px;
+    height:115px;
+
+    object-fit:cover;
+    object-position:center 15%;
+
+    border-radius:15px;
+    border:4px solid #fff;
+
+    box-shadow:0 8px 18px rgba(0,0,0,.18);
+
+    display:block;
+    margin:0 auto;
+}
+</style>
+</head>
+
+<body class="bg-light">
+
+  <!-- ================= NAVBAR ================= -->
+
+  <nav class="navbar navbar-expand-lg bg-white shadow-sm sticky-top">
     <div class="container">
-      <a class="navbar-brand fw-bold text-primary" href="/dashboard">
-        <i class="bi bi-mortarboard-fill me-2"></i>GNITC Portal
+
+      <a class="navbar-brand fw-bold text-primary" href="/dashboard/<%= student.rollNo %>">
+
+        <i class="bi bi-mortarboard-fill me-2"></i>
+
+        GNITC ERP
+
       </a>
-      <a  href="javascript:history.back()" class="btn btn-outline-secondary btn-sm rounded-pill px-3">
-        <i class="bi bi-arrow-left me-1"></i> Back to Dashboard
+
+      <a href="/dashboard/<%= student.rollNo %>" class="btn btn-outline-primary rounded-pill">
+
+        <i class="bi bi-arrow-left"></i>
+
+        Dashboard
+
       </a>
+
     </div>
   </nav>
 
-  <div class="container pb-5" style="max-width: 1000px;">
-    
+  <div class="container py-5">
+
+    <!-- Page Header -->
+
     <div class="d-flex justify-content-between align-items-center mb-4">
-      <h3 class="fw-bold text-dark mb-0">Account Settings</h3>
-      <span class="badge bg-success bg-opacity-10 text-success border border-success px-3 py-2 rounded-pill">
-        <i class="bi bi-shield-check me-1"></i> Account Secure
+
+      <div>
+
+        <h2 class="fw-bold mb-1">
+
+          Account Settings
+
+        </h2>
+
+        <p class="text-muted mb-0">
+
+          Manage your profile and account preferences.
+
+        </p>
+
+      </div>
+
+      <span class="badge bg-success px-3 py-2 rounded-pill">
+
+        <i class="bi bi-shield-check me-1"></i>
+
+        Secure Account
+
       </span>
+
     </div>
 
-    <% if (query.success) { %>
-      <div class="alert alert-success alert-dismissible fade show border-0 shadow-sm rounded-3" role="alert">
-        <i class="bi bi-check-circle-fill me-2"></i> Your account details were updated successfully!
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+
+    <!-- Success Messages -->
+
+    <% if(query.contact){ %>
+
+      <div class="alert alert-success alert-dismissible fade show">
+
+        <i class="bi bi-check-circle-fill me-2"></i>
+
+        Contact information updated successfully.
+
+        <button class="btn-close" data-bs-dismiss="alert">
+        </button>
+
       </div>
+
+      <% } %>
+
+
+        <% if(query.password){ %>
+
+          <div class="alert alert-success alert-dismissible fade show">
+
+            <i class="bi bi-check-circle-fill me-2"></i>
+
+            Password updated successfully.
+
+            <button class="btn-close" data-bs-dismiss="alert">
+            </button>
+
+          </div>
+
+          <% } %>
+
+
+            <div class="row g-4">
+
+              <!-- LEFT PANEL -->
+
+              <div class="col-lg-4">
+                <div class="card border-0 shadow rounded-4 overflow-hidden mb-4">
+
+                  <div class="bg-primary text-white text-center py-4">
+
+                    <div class="profile-image-container">
+    <% if (profile.personal.profileImage) { %>
+        <img
+            src="<%= profile.personal.profileImage %>"
+            alt="Student Photo"
+            class="student-photo">
+    <% } else { %>
+        <div class="student-placeholder">
+            <%= student.name.charAt(0).toUpperCase() %>
+        </div>
     <% } %>
+</div>
 
-    <div class="row g-4">
-      
-      <div class="col-md-4">
-        
-        <div class="card border-0 shadow-sm rounded-4 text-center mb-4 pb-3">
-          <div class="bg-primary bg-opacity-10 rounded-top-4" style="height: 100px;"></div>
-          <div class="avatar-wrapper" style="margin-top: -50px;">
-            <div class="bg-white border shadow-sm d-inline-flex align-items-center justify-content-center rounded-circle" style="width: 100px; height: 100px; font-size: 2.5rem; font-weight: bold; color: #4f46e5;">
-              <%= student.name.charAt(0) %>
-            </div>
-            <div class="avatar-edit border border-light">
-              <i class="bi bi-camera-fill fs-5"></i>
-            </div>
-          </div>
-          <div class="card-body pt-2">
-            <h5 class="fw-bold mb-1 text-dark"><%= student.name %></h5>
-            <p class="text-muted small mb-0"><%= student.rollNo %></p>
-            <p class="text-muted small mb-3"><%= student.email %></p>
-            <span class="badge bg-light text-dark border px-3 py-2 rounded-pill w-100">B.Tech Computer Science</span>
-          </div>
-        </div>
+<div class="bg-primary text-white text-center py-3">
+    <h4 class="fw-bold mb-1"><%= student.name %></h4>
 
-        <div class="card border-0 shadow-sm rounded-4 p-2">
-          <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-            <button class="nav-link active text-start mb-1" id="v-pills-general-tab" data-bs-toggle="pill" data-bs-target="#v-pills-general" type="button" role="tab">
-              <i class="bi bi-person-lines-fill me-2"></i> General Info
-            </button>
-            <button class="nav-link text-start mb-1" id="v-pills-security-tab" data-bs-toggle="pill" data-bs-target="#v-pills-security" type="button" role="tab">
-              <i class="bi bi-shield-lock-fill me-2"></i> Security
-            </button>
-            <button class="nav-link text-start" id="v-pills-notifications-tab" data-bs-toggle="pill" data-bs-target="#v-pills-notifications" type="button" role="tab">
-              <i class="bi bi-bell-fill me-2"></i> Preferences
-            </button>
-          </div>
-        </div>
+    <p class="mb-1"><%= student.rollNo %></p>
 
-      </div>
+    <small>
+        <%= profile.academic.department %> • Semester
+        <%= profile.academic.semester %>
+    </small>
+</div>
 
-      <div class="col-md-8">
-        <div class="card border-0 shadow-sm rounded-4 h-100">
-          <div class="card-body p-4 p-md-5">
-            
-            <form action="/update-account/<%= student.rollNo %>" method="POST">
-              <div class="tab-content" id="v-pills-tabContent">
-                
-                <div class="tab-pane fade show active" id="v-pills-general" role="tabpanel">
-                  <h5 class="fw-bold text-dark mb-4 border-bottom pb-3">Personal Information</h5>
-                  
-                  <div class="row g-4 mb-4">
-                    <div class="col-md-6">
-                      <label class="form-label small fw-bold text-muted">Full Name (Read-Only)</label>
-                      <input type="text" class="form-control bg-light" value="<%= student.name %>" readonly>
-                    </div>
-                    <div class="col-md-6">
-                      <label class="form-label small fw-bold text-muted">Roll Number (Read-Only)</label>
-                      <input type="text" class="form-control bg-light" value="<%= student.rollNo %>" readonly>
-                    </div>
                   </div>
 
-                  <h6 class="fw-bold text-secondary small text-uppercase mb-3">Editable Contact Details</h6>
-                  <div class="row g-4">
-                    <div class="col-md-6">
-                      <label class="form-label small fw-bold text-muted">Phone Number</label>
-                      <div class="input-group">
-                        <span class="input-group-text bg-light">+91</span>
-                        <input type="tel" name="phone" class="form-control" placeholder="Enter mobile number" value="<%= profile.phone || '' %>">
+                  <div class="card-body">
+
+                    <h6 class="fw-bold">
+
+                      Profile Completion
+
+                    </h6>
+
+                    <div class="progress mb-2" style="height:10px">
+
+                      <div class="progress-bar progress-bar-striped progress-bar-animated
+<% if(profileCompletion>=90){ %>
+bg-success
+<% }else if(profileCompletion>=70){ %>
+bg-primary
+<% }else if(profileCompletion>=50){ %>
+bg-warning
+<% }else{ %>
+bg-danger
+<% } %>" style="width:<%= profileCompletion %>%">
                       </div>
+
                     </div>
-                    <div class="col-md-12">
-                      <label class="form-label small fw-bold text-muted">Residential Address</label>
-                      <textarea name="address" class="form-control" rows="3" placeholder="Enter your full address"><%= profile.address || '' %></textarea>
+
+                    <div class="d-flex justify-content-between align-items-center mt-2">
+
+                      <small class="text-muted">
+                        <%= profileCompletion %>% Completed
+                      </small>
+
+                      <% if(profileCompletion>= 90){ %>
+
+                        <span class="badge bg-success">
+                          Excellent
+                        </span>
+
+                        <% } else if(profileCompletion>= 70){ %>
+
+                          <span class="badge bg-primary">
+                            Good
+                          </span>
+
+                          <% } else if(profileCompletion>= 50){ %>
+
+                            <span class="badge bg-warning text-dark">
+                              Average
+                            </span>
+
+                            <% } else { %>
+
+                              <span class="badge bg-danger">
+                                Incomplete
+                              </span>
+
+                              <% } %>
+
                     </div>
+
                   </div>
+
+                </div>
+                <div class="card border-0 shadow rounded-4 mb-4">
+
+                  <div class="card border-0 shadow rounded-4 mb-4">
+
+                    <div class="card-header bg-success text-white">
+
+                      <h5 class="mb-0">
+
+                        <i class="bi bi-speedometer2 me-2"></i>
+
+                        Quick Statistics
+
+                      </h5>
+
+                    </div>
+
+                    <div class="card-body">
+
+                      <div class="row g-3">
+
+                        <!-- Attendance -->
+
+                        <div class="col-6">
+
+                          <div class="border rounded-4 p-3 text-center h-100 stat-card">
+
+                            <div class="display-6 text-success mb-2">
+
+                              <i class="bi bi-graph-up-arrow"></i>
+
+                            </div>
+
+                            <h3 class="fw-bold">
+
+                              <%= profile.attendance?.percentage || 0 %>%
+
+                            </h3>
+
+                            <small class="text-muted">
+
+                              Attendance
+
+                            </small>
+
+                          </div>
+
+                        </div>
+
+                        <!-- Fees -->
+
+                        <div class="col-6">
+
+                          <div class="border rounded-4 p-3 text-center h-100 stat-card">
+
+                            <div class="display-6 text-danger mb-2">
+
+                              <i class="bi bi-cash-stack"></i>
+
+                            </div>
+
+                            <h4 class="fw-bold">
+
+                              ₹<%= profile.fees.dueAmount.toLocaleString("en-IN") %>
+
+                            </h4>
+
+                            <small class="text-muted">
+
+                              Fee Due
+
+                            </small>
+
+                          </div>
+
+                        </div>
+
+                        <!-- Clubs -->
+
+                        <div class="col-6">
+
+                          <div class="border rounded-4 p-3 text-center h-100 stat-card">
+
+                            <div class="display-6 text-warning mb-2">
+
+                              <i class="bi bi-people-fill"></i>
+
+                            </div>
+
+                            <h3 class="fw-bold">
+
+                              <%= profile.joinedClubs.length %>
+
+                            </h3>
+
+                            <small class="text-muted">
+
+                              Clubs Joined
+
+                            </small>
+
+                          </div>
+
+                        </div>
+
+                        <!-- Events -->
+
+                        <div class="col-6">
+
+                          <div class="border rounded-4 p-3 text-center h-100 stat-card">
+
+                            <div class="display-6 text-primary mb-2">
+
+                              <i class="bi bi-calendar-event-fill"></i>
+
+                            </div>
+
+                            <h3 class="fw-bold">
+
+                              <%= profile.registeredEvents.length %>
+
+                            </h3>
+
+                            <small class="text-muted">
+
+                              Events
+
+                            </small>
+
+                          </div>
+
+                        </div>
+
+                      </div>
+
+                    </div>
+
+                  </div>
+
+                </div>
+                <div class="card border-0 shadow rounded-4 mb-4">
+
+                  <div class="card-header bg-dark text-white">
+
+                    <a href="/digital-id/<%= student.rollNo %>" class="btn btn-primary w-100 rounded-pill">
+
+                      <i class="bi bi-person-vcard me-2"></i>
+
+                      View Digital ID
+
+                    </a>
+
+                  </div>
+
+                  <div class="card-body text-center">
+
+                    <% if(profile.digitalId.isValid){ %>
+
+                      <span class="badge bg-success fs-6">
+
+                        Approved
+
+                      </span>
+
+                      <% } else { %>
+
+                        <span class="badge bg-danger fs-6">
+
+                          Pending Approval
+
+                        </span>
+
+                        <% } %>
+
+                          <hr>
+
+                          <p>
+
+                            Issued
+
+                            <br>
+
+                            <strong>
+
+                              <%= new Date(profile.digitalId.issuedDate).toDateString() %>
+
+                            </strong>
+
+                          </p>
+
+                          <% if(profile.digitalId.validUntil){ %>
+
+                            <p>
+
+                              Valid Till
+
+                              <br>
+
+                              <strong>
+
+                                <%= new Date(profile.digitalId.validUntil).toDateString() %>
+
+                              </strong>
+
+                            </p>
+
+                            <% } %>
+
+                  </div>
+
+                </div>
+                <div class="card border-0 shadow rounded-4">
+
+                  <div class="card-header bg-info text-white">
+
+                    <h5>
+
+                      <i class="bi bi-mortarboard-fill me-2"></i>
+
+                      Academic Summary
+
+                    </h5>
+
+                  </div>
+
+                  <div class="card-body">
+
+                    <table class="table table-borderless mb-0">
+
+                      <tr>
+
+                        <td>Department</td>
+
+                        <td class="fw-bold">
+
+                          <%= profile.academic.department %>
+
+                        </td>
+
+                      </tr>
+
+                      <tr>
+
+                        <td>Program</td>
+
+                        <td class="fw-bold">
+
+                          <%= profile.academic.program %>
+
+                        </td>
+
+                      </tr>
+
+                      <tr>
+
+                        <td>Semester</td>
+
+                        <td class="fw-bold">
+
+                          <%= profile.academic.semester %>
+
+                        </td>
+
+                      </tr>
+
+                      <tr>
+
+                        <td>Section</td>
+
+                        <td class="fw-bold">
+
+                          <%= profile.academic.section %>
+
+                        </td>
+
+                      </tr>
+
+                      <tr>
+
+                        <td>Admission</td>
+
+                        <td class="fw-bold">
+
+                          <%= profile.academic.admissionYear %>
+
+                        </td>
+
+                      </tr>
+
+                    </table>
+
+                  </div>
+
                 </div>
 
-                <div class="tab-pane fade" id="v-pills-security" role="tabpanel">
-                  <h5 class="fw-bold text-dark mb-4 border-bottom pb-3">Security Settings</h5>
-                  
-                  <div class="mb-4">
-                    <label class="form-label small fw-bold text-muted">Change Password</label>
-                    <div class="input-group mb-2">
-                      <span class="input-group-text bg-white"><i class="bi bi-key text-muted"></i></span>
-                      <input type="password" name="newPassword" class="form-control" placeholder="Type new password...">
-                    </div>
-                    <div class="form-text text-muted small"><i class="bi bi-info-circle me-1"></i>Leave blank if you want to keep your current password.</div>
-                  </div>
-
-                  <div class="border rounded-3 p-3 bg-light">
-                    <div class="form-check form-switch d-flex justify-content-between align-items-center p-0 m-0">
-                      <div>
-                        <label class="form-check-label fw-bold text-dark mb-1" for="twoFactor">Two-Factor Authentication (2FA)</label>
-                        <div class="small text-muted">Require an OTP when logging in from new devices.</div>
-                      </div>
-                      <input class="form-check-input fs-4 m-0" type="checkbox" id="twoFactor" checked>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="tab-pane fade" id="v-pills-notifications" role="tabpanel">
-                  <h5 class="fw-bold text-dark mb-4 border-bottom pb-3">Notification Preferences</h5>
-                  
-                  <div class="list-group list-group-flush border-0">
-                    <div class="list-group-item px-0 py-3 d-flex justify-content-between align-items-center bg-transparent">
-                      <div>
-                        <h6 class="mb-1 fw-bold text-dark">Fee Reminders</h6>
-                        <small class="text-muted">Receive alerts before due dates.</small>
-                      </div>
-                      <div class="form-check form-switch">
-                        <input class="form-check-input fs-5" type="checkbox" checked>
-                      </div>
-                    </div>
-                    
-                    <div class="list-group-item px-0 py-3 d-flex justify-content-between align-items-center bg-transparent">
-                      <div>
-                        <h6 class="mb-1 fw-bold text-dark">Attendance Warnings</h6>
-                        <small class="text-muted">Get an email if your attendance drops below 75%.</small>
-                      </div>
-                      <div class="form-check form-switch">
-                        <input class="form-check-input fs-5" type="checkbox" checked>
-                      </div>
-                    </div>
-                  </div>
-                </div>
 
               </div>
 
-              <div class="d-flex justify-content-end mt-5 pt-3 border-top">
-                <a href="/dashboard" class="btn btn-light px-4 me-2 fw-bold">Cancel</a>
-                <button type="submit" class="btn btn-primary px-5 fw-bold rounded-pill shadow-sm" style="background-color: #4f46e5; border-color: #4f46e5;">
-                  Save All Changes
-                </button>
+              <!-- RIGHT PANEL -->
+
+              <div class="col-lg-8">
+                <!-- ================= CONTACT INFORMATION ================= -->
+
+                <div class="card border-0 shadow rounded-4 mb-4">
+
+                  <div class="card-header bg-primary text-white py-3">
+
+                    <h4 class="mb-0">
+                      <i class="bi bi-person-lines-fill me-2"></i>
+                      Contact Information
+                    </h4>
+
+                  </div>
+
+                  <div class="card-body p-4">
+
+                    <form action="/account/contact/<%= student.rollNo %>" method="POST">
+
+                      <div class="row g-4">
+
+                        <div class="col-md-6">
+
+                          <label class="form-label fw-semibold">
+                            Phone Number
+                          </label>
+
+                          <div class="input-group">
+
+                            <span class="input-group-text">
+                              +91
+                            </span>
+
+                            <input type="text" class="form-control" name="phone"
+                              value="<%= profile.contact?.phone || '' %>" placeholder="Enter phone number">
+
+                          </div>
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                          <label class="form-label fw-semibold">
+                            City
+                          </label>
+
+                          <input type="text" class="form-control" name="city" value="<%= profile.contact?.city || '' %>"
+                            placeholder="City">
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                          <label class="form-label fw-semibold">
+                            State
+                          </label>
+
+                          <input type="text" class="form-control" name="state"
+                            value="<%= profile.contact?.state || '' %>" placeholder="State">
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                          <label class="form-label fw-semibold">
+                            Pincode
+                          </label>
+
+                          <input type="text" class="form-control" name="pincode"
+                            value="<%= profile.contact?.pincode || '' %>" placeholder="Pincode">
+
+                        </div>
+
+                        <div class="col-12">
+
+                          <label class="form-label fw-semibold">
+                            Address
+                          </label>
+
+                          <textarea class="form-control" rows="4" name="address"
+                            placeholder="Enter full address"><%= profile.contact?.address || '' %></textarea>
+
+                        </div>
+
+                      </div>
+
+                      <div class="text-end mt-4">
+
+                        <button type="submit" class="btn btn-primary rounded-pill px-5 shadow">
+
+                          <i class="bi bi-floppy me-2"></i>
+
+                          Save Contact Information
+
+                        </button>
+
+                      </div>
+
+                    </form>
+
+                  </div>
+
+                </div>
+
+                <!-- ================= CHANGE PASSWORD ================= -->
+
+                <div class="card border-0 shadow rounded-4 mb-4">
+
+                  <div class="card-header bg-dark text-white py-3">
+
+                    <h4 class="mb-0">
+
+                      <i class="bi bi-shield-lock-fill me-2"></i>
+
+                      Change Password
+
+                    </h4>
+
+                  </div>
+
+                  <div class="card-body p-4">
+
+                    <form action="/account/password/<%= student.rollNo %>" method="POST">
+
+                      <div class="row">
+
+                        <div class="col-md-6 mb-4">
+
+                          <label class="form-label fw-semibold">
+
+                            New Password
+
+                          </label>
+
+                          <input type="password" class="form-control" name="newPassword"
+                            placeholder="Enter new password">
+
+                        </div>
+
+                        <div class="col-md-6 mb-4">
+
+                          <label class="form-label fw-semibold">
+
+                            Confirm Password
+
+                          </label>
+
+                          <input type="password" class="form-control" name="confirmPassword"
+                            placeholder="Confirm password">
+
+                        </div>
+
+                      </div>
+
+                      <div class="text-end">
+
+                        <button type="submit" class="btn btn-dark rounded-pill px-5 shadow">
+
+                          <i class="bi bi-key-fill me-2"></i>
+
+                          Update Password
+
+                        </button>
+
+                      </div>
+
+                    </form>
+
+                  </div>
+
+                </div>
+
+                <!-- ================= ACADEMIC INFORMATION ================= -->
+
+                <div class="card border-0 shadow rounded-4">
+
+                  <div class="card-header bg-success text-white py-3">
+
+                    <h4 class="mb-0">
+
+                      <i class="bi bi-mortarboard-fill me-2"></i>
+
+                      Academic Information
+
+                    </h4>
+
+                  </div>
+
+                  <div class="card-body">
+
+                    <div class="row">
+
+                      <div class="col-md-6 mb-3">
+
+                        <label class="form-label text-muted">
+
+                          Full Name
+
+                        </label>
+
+                        <input class="form-control" readonly value="<%= student.name %>">
+
+                      </div>
+
+                      <div class="col-md-6 mb-3">
+
+                        <label class="form-label text-muted">
+
+                          Roll Number
+
+                        </label>
+
+                        <input class="form-control" readonly value="<%= student.rollNo %>">
+
+                      </div>
+
+                      <div class="col-md-6 mb-3">
+
+                        <label class="form-label text-muted">
+
+                          Email
+
+                        </label>
+
+                        <input class="form-control" readonly value="<%= student.email %>">
+
+                      </div>
+
+                      <div class="col-md-6 mb-3">
+
+                        <label class="form-label text-muted">
+
+                          Department
+
+                        </label>
+
+                        <input class="form-control" readonly value="<%= profile.academic.department %>">
+
+                      </div>
+
+                      <div class="col-md-4 mb-3">
+
+                        <label class="form-label text-muted">
+
+                          Program
+
+                        </label>
+
+                        <input class="form-control" readonly value="<%= profile.academic.program %>">
+
+                      </div>
+
+                      <div class="col-md-4 mb-3">
+
+                        <label class="form-label text-muted">
+
+                          Semester
+
+                        </label>
+
+                        <input class="form-control" readonly value="<%= profile.academic.semester %>">
+
+                      </div>
+
+                      <div class="col-md-4 mb-3">
+
+                        <label class="form-label text-muted">
+
+                          Section
+
+                        </label>
+
+                        <input class="form-control" readonly value="<%= profile.academic.section %>">
+
+                      </div>
+
+                    </div>
+
+                  </div>
+
+                </div>
+                <div class="card border-0 shadow rounded-4 mt-4">
+
+                  <div class="card-header bg-secondary text-white">
+
+                    <h5 class="mb-0">
+                      <i class="bi bi-clock-history me-2"></i>
+                      Recent Activity
+                    </h5>
+
+                  </div>
+
+                  <div class="card-body">
+
+                    <ul class="list-group list-group-flush">
+
+                      <li class="list-group-item d-flex justify-content-between">
+
+                        <div>
+
+                          <i class="bi bi-person-check-fill text-primary me-2"></i>
+
+                          Profile Information Updated
+
+                        </div>
+
+                        <small class="text-muted">
+                          Recently
+                        </small>
+
+                      </li>
+
+                      <li class="list-group-item d-flex justify-content-between">
+
+                        <div>
+
+                          <i class="bi bi-cash-stack text-success me-2"></i>
+
+                          Last Fee Payment
+
+                        </div>
+
+                        <small class="text-muted">
+
+                          ₹<%= profile.fees.amountPaid.toLocaleString("en-IN") %>
+
+                        </small>
+
+                      </li>
+
+                      <li class="list-group-item d-flex justify-content-between">
+
+                        <div>
+
+                          <i class="bi bi-calendar-event text-warning me-2"></i>
+
+                          Registered Events
+
+                        </div>
+
+                        <span class="badge bg-warning text-dark">
+
+                          <%= profile.registeredEvents.length %>
+
+                        </span>
+
+                      </li>
+
+                      <li class="list-group-item d-flex justify-content-between">
+
+                        <div>
+
+                          <i class="bi bi-people-fill text-info me-2"></i>
+
+                          Joined Clubs
+
+                        </div>
+
+                        <span class="badge bg-info">
+
+                          <%= profile.joinedClubs.length %>
+
+                        </span>
+
+                      </li>
+
+                      <li class="list-group-item d-flex justify-content-between">
+
+                        <div>
+
+                          <i class="bi bi-person-vcard-fill text-danger me-2"></i>
+
+                          Digital ID
+
+                        </div>
+
+                        <% if(profile.digitalId.isValid){ %>
+
+                          <span class="badge bg-success">
+
+                            Approved
+
+                          </span>
+
+                          <% }else{ %>
+
+                            <span class="badge bg-danger">
+
+                              Pending
+
+                            </span>
+
+                            <% } %>
+
+                      </li>
+
+                    </ul>
+
+                  </div>
+
+                </div>
+
               </div>
+            </div>
+  </div>
+  <div class="card border-0 shadow rounded-4 mt-4">
 
-            </form>
+    <div class="card-header bg-info text-white">
 
-          </div>
+      <h4>
+
+        <i class="bi bi-info-circle-fill me-2"></i>
+
+        Account Information
+
+      </h4>
+
+    </div>
+
+    <div class="card-body">
+
+      <div class="row">
+
+        <div class="col-md-6 mb-3">
+
+          <label>Digital ID</label>
+
+          <input class="form-control" readonly
+            value="<%= profile.digitalId.isValid ? 'Approved' : 'Pending Approval' %>">
+
         </div>
+
+        <div class="col-md-6 mb-3">
+
+          <label>Admission Year</label>
+
+          <input class="form-control" readonly value="<%= profile.academic.admissionYear %>">
+
+        </div>
+
+        <div class="col-md-6 mb-3">
+
+          <label>Created</label>
+
+          <input class="form-control" readonly value="<%= profile.createdAt.toDateString() %>">
+
+        </div>
+
+        <div class="col-md-6 mb-3">
+
+          <label>Last Updated</label>
+
+          <input class="form-control" readonly value="<%= profile.updatedAt.toDateString() %>">
+
+        </div>
+
       </div>
 
     </div>
+
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
+
 </html>

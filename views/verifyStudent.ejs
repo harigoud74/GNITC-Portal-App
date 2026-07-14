@@ -1,0 +1,975 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Student Verification | Guru Nanak Institutes Technical Campus</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Segoe UI", sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+
+      background: linear-gradient(135deg, #0f172a, #1e3a8a, #2563eb);
+
+      display: flex;
+
+      justify-content: center;
+
+      align-items: center;
+
+      padding: 50px;
+    }
+
+    .verification-card {
+      width: 100%;
+      max-width: 1050px;
+
+      background: rgba(255, 255, 255, 0.96);
+
+      border-radius: 30px;
+
+      overflow: hidden;
+
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.25);
+
+      backdrop-filter: blur(12px);
+
+      animation: fadeUp 0.8s ease;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* ========================= */
+
+    .header {
+      background: linear-gradient(135deg, #0d47a1, #2563eb);
+
+      color: white;
+
+      padding: 35px 45px;
+
+      display: flex;
+
+      justify-content: space-between;
+
+      align-items: center;
+
+      flex-wrap: wrap;
+    }
+
+    .college {
+      display: flex;
+
+      align-items: center;
+
+      gap: 20px;
+    }
+
+    .college img {
+      width: 80px;
+      height: 80px;
+
+      background: white;
+
+      border-radius: 16px;
+
+      padding: 8px;
+
+      object-fit: contain;
+    }
+
+    .college h2 {
+      margin: 0;
+
+      font-size: 28px;
+
+      font-weight: 800;
+    }
+
+    .college p {
+      margin: 4px 0 0;
+
+      opacity: 0.9;
+
+      font-size: 15px;
+    }
+
+    .secure-badge {
+      background: rgba(255, 255, 255, 0.15);
+
+      border: 1px solid rgba(255, 255, 255, 0.3);
+
+      padding: 14px 22px;
+
+      border-radius: 50px;
+
+      font-weight: 600;
+
+      backdrop-filter: blur(10px);
+    }
+
+    /* ========================= */
+
+    .hero {
+      text-align: center;
+
+      padding: 45px 20px 35px;
+
+      background: #f8fbff;
+    }
+
+    .verify-icon {
+      width: 110px;
+
+      height: 110px;
+
+      border-radius: 50%;
+
+      background: #22c55e;
+
+      color: white;
+
+      margin: auto;
+
+      display: flex;
+
+      justify-content: center;
+
+      align-items: center;
+
+      font-size: 60px;
+
+      box-shadow: 0 12px 35px rgba(34, 197, 94, 0.35);
+    }
+
+    .hero h1 {
+      margin-top: 22px;
+
+      font-size: 36px;
+
+      font-weight: 800;
+
+      color: #0f172a;
+    }
+
+    .hero p {
+      margin-top: 10px;
+
+      color: #64748b;
+
+      font-size: 17px;
+    }
+
+    .verified-chip {
+      display: inline-block;
+
+      margin-top: 22px;
+
+      padding: 12px 28px;
+
+      border-radius: 50px;
+
+      background: #22c55e;
+
+      color: white;
+
+      font-weight: 700;
+
+      letter-spacing: 1px;
+    }
+
+    .divider {
+      width: 120px;
+
+      height: 4px;
+
+      background: #2563eb;
+
+      margin: 35px auto;
+
+      border-radius: 50px;
+    }
+
+    .profile-photo {
+
+      width: 180px;
+
+      height: 220px;
+
+      object-fit: cover;
+
+      object-position: center 15%;
+
+      border-radius: 20px;
+
+      border: 6px solid white;
+
+      box-shadow: 0 15px 30px rgba(0, 0, 0, .18);
+
+    }
+
+    .profile-placeholder {
+
+      width: 180px;
+
+      height: 220px;
+
+      margin: auto;
+
+      border-radius: 20px;
+
+      background: linear-gradient(135deg, #2563eb, #1d4ed8);
+
+      color: white;
+
+      display: flex;
+
+      justify-content: center;
+
+      align-items: center;
+
+      font-size: 72px;
+
+      font-weight: bold;
+
+    }
+
+    .info-box {
+
+      background: #f8fbff;
+
+      border-radius: 16px;
+
+      padding: 18px;
+
+    }
+
+    .info-box small {
+
+      color: #64748b;
+
+    }
+
+    .info-box h6 {
+
+      margin-top: 5px;
+
+      font-weight: 700;
+
+    }
+
+    .detail-card {
+
+      background: #f8fbff;
+
+      padding: 18px;
+
+      border-radius: 16px;
+
+      margin-bottom: 18px;
+
+      transition: .3s;
+
+    }
+
+    .detail-card:hover {
+
+      transform: translateY(-3px);
+
+      box-shadow: 0 8px 20px rgba(0, 0, 0, .08);
+
+    }
+
+    .detail-card span {
+
+      color: #64748b;
+
+      font-size: 14px;
+
+    }
+
+    .detail-card h5 {
+
+      margin-top: 6px;
+
+      font-weight: 700;
+
+      color: #0f172a;
+
+    }
+
+    /* ========================================= */
+
+    .security-card {
+
+      background: #f8fbff;
+
+      border-radius: 20px;
+
+      padding: 28px 20px;
+
+      text-align: center;
+
+      height: 100%;
+
+      transition: .35s;
+
+      border: 1px solid #e5e7eb;
+
+    }
+
+    .security-card:hover {
+
+      transform: translateY(-8px);
+
+      box-shadow: 0 18px 35px rgba(37, 99, 235, .12);
+
+      border-color: #2563eb;
+
+    }
+
+    .security-card i {
+
+      font-size: 48px;
+
+      margin-bottom: 18px;
+
+    }
+
+    .security-card h5 {
+
+      font-weight: 700;
+
+      margin-bottom: 12px;
+
+    }
+
+    .security-card p {
+
+      color: #64748b;
+
+      font-size: 15px;
+
+      margin: 0;
+
+    }
+
+    .footer {
+
+      background: #0f172a;
+
+      color: white;
+
+      padding: 28px 40px;
+
+      display: flex;
+
+      justify-content: space-between;
+
+      align-items: center;
+
+      flex-wrap: wrap;
+
+    }
+
+    .footer h5 {
+
+      margin: 0;
+
+      font-weight: 700;
+
+    }
+
+    .footer p {
+
+      margin: 5px 0 0;
+
+      color: #cbd5e1;
+
+    }
+
+    @media(max-width:768px) {
+
+      body {
+
+        padding: 20px;
+
+      }
+
+      .header {
+
+        text-align: center;
+
+        justify-content: center;
+
+        gap: 25px;
+
+      }
+
+      .college {
+
+        flex-direction: column;
+
+      }
+
+      .college h2 {
+
+        font-size: 22px;
+
+      }
+
+      .hero h1 {
+
+        font-size: 28px;
+
+      }
+
+      .profile-photo,
+
+      .profile-placeholder {
+
+        width: 150px;
+
+        height: 190px;
+
+      }
+
+      .footer {
+
+        justify-content: center;
+
+        text-align: center;
+
+        gap: 15px;
+
+      }
+
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="verification-card">
+
+    <!-- Header -->
+
+    <div class="header">
+
+      <div class="college">
+
+        <img src="/images/gnitc-logo.png">
+
+        <div>
+
+          <h2>
+            Guru Nanak Institutes Technical Campus
+          </h2>
+
+          <p>
+            Official Student Identity Verification Portal
+          </p>
+
+        </div>
+
+      </div>
+
+      <div class="secure-badge">
+
+        <i class="bi bi-shield-check"></i>
+
+        Secure Verification
+
+      </div>
+
+    </div>
+
+    <!-- Hero -->
+
+    <div class="hero">
+
+      <div class="verify-icon">
+
+        <i class="bi bi-patch-check-fill"></i>
+
+      </div>
+
+      <h1>
+
+        Identity Successfully Verified
+
+      </h1>
+
+      <p>
+
+        This student record has been verified from the
+        Guru Nanak Institutes Technical Campus ERP Database.
+
+      </p>
+
+      <div class="verified-chip">
+
+        VERIFIED STUDENT
+
+      </div>
+
+      <div class="divider"></div>
+      <!-- ============================= -->
+      <!-- Student Information Section -->
+      <!-- ============================= -->
+
+      <div class="container-fluid px-5 pb-5">
+
+        <div class="row g-4">
+
+          <!-- Student Profile Card -->
+
+          <div class="col-lg-4">
+
+            <div class="card border-0 shadow-lg rounded-4 h-100">
+
+              <div class="card-body text-center p-4">
+
+                <% if(profile.personal.profileImage){ %>
+
+                  <img src="<%= profile.personal.profileImage %>" class="profile-photo" alt="Student Photo">
+
+                  <% } else { %>
+
+                    <div class="profile-placeholder">
+
+                      <%= student.name.charAt(0).toUpperCase() %>
+
+                    </div>
+
+                    <% } %>
+
+                      <h3 class="mt-4 fw-bold">
+
+                        <%= student.name %>
+
+                      </h3>
+
+                      <p class="text-muted mb-3">
+
+                        <%= student.rollNo %>
+
+                      </p>
+
+                      <span class="badge bg-primary fs-6 px-4 py-2 rounded-pill">
+
+                        <%= profile.academic.department %>
+
+                      </span>
+
+                      <hr>
+
+                      <div class="d-grid gap-3">
+
+                        <div class="info-box">
+
+                          <small>Program</small>
+
+                          <h6>
+
+                            <%= profile.academic.program %>
+
+                          </h6>
+
+                        </div>
+
+                        <div class="info-box">
+
+                          <small>Semester</small>
+
+                          <h6>
+
+                            Semester <%= profile.academic.semester %>
+
+                          </h6>
+
+                        </div>
+
+                        <div class="info-box">
+
+                          <small>Section</small>
+
+                          <h6>
+
+                            <%= profile.academic.section %>
+
+                          </h6>
+
+                        </div>
+
+                      </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          <!-- Student Details -->
+
+          <div class="col-lg-8">
+
+            <div class="card border-0 shadow-lg rounded-4">
+
+              <div class="card-body p-5">
+
+                <h3 class="fw-bold mb-4">
+
+                  Student Information
+
+                </h3>
+
+                <div class="row">
+
+                  <div class="col-md-6">
+
+                    <div class="detail-card">
+
+                      <span>Full Name</span>
+
+                      <h5>
+
+                        <%= student.name %>
+
+                      </h5>
+
+                    </div>
+
+                  </div>
+
+                  <div class="col-md-6">
+
+                    <div class="detail-card">
+
+                      <span>Roll Number</span>
+
+                      <h5>
+
+                        <%= student.rollNo %>
+
+                      </h5>
+
+                    </div>
+
+                  </div>
+
+                  <div class="col-md-6">
+
+                    <div class="detail-card">
+
+                      <span>Email</span>
+
+                      <h5>
+
+                        <%= student.email %>
+
+                      </h5>
+
+                    </div>
+
+                  </div>
+
+                  <div class="col-md-6">
+
+                    <div class="detail-card">
+
+                      <span>Department</span>
+
+                      <h5>
+
+                        <%= profile.academic.department %>
+
+                      </h5>
+
+                    </div>
+
+                  </div>
+
+                  <div class="col-md-6">
+
+                    <div class="detail-card">
+
+                      <span>Program</span>
+
+                      <h5>
+
+                        <%= profile.academic.program %>
+
+                      </h5>
+
+                    </div>
+
+                  </div>
+
+                  <div class="col-md-6">
+
+                    <div class="detail-card">
+
+                      <span>Semester</span>
+
+                      <h5>
+
+                        <%= profile.academic.semester %>
+
+                      </h5>
+
+                    </div>
+
+                  </div>
+
+                  <div class="col-md-6">
+
+                    <div class="detail-card">
+
+                      <span>Section</span>
+
+                      <h5>
+
+                        <%= profile.academic.section %>
+
+                      </h5>
+
+                    </div>
+
+                  </div>
+
+                  <div class="col-md-6">
+
+                    <div class="detail-card">
+
+                      <span>Status</span>
+
+                      <h5 class="text-success">
+
+                        <i class="bi bi-patch-check-fill"></i>
+
+                        Verified Student
+
+                      </h5>
+
+                    </div>
+
+                  </div>
+
+                </div>
+
+                <hr class="my-4">
+
+                <div class="row text-center">
+
+                  <div class="col-md-4">
+
+                    <h6 class="text-muted">
+
+                      Verification ID
+
+                    </h6>
+
+                    <h5>
+
+                      GNITC-<%= student.rollNo %>
+
+                    </h5>
+
+                  </div>
+
+                  <div class="col-md-4">
+
+                    <h6 class="text-muted">
+
+                      Verified On
+
+                    </h6>
+
+                    <h5>
+
+                      <%= verifiedAt.toLocaleDateString() %>
+
+                    </h5>
+
+                  </div>
+
+                  <div class="col-md-4">
+
+                    <h6 class="text-muted">
+
+                      Database
+
+                    </h6>
+
+                    <h5 class="text-success">
+
+                      Active
+
+                    </h5>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+      <!-- ====================================== -->
+      <!-- Security Verification Section -->
+      <!-- ====================================== -->
+
+      <div class="container-fluid px-5 pb-5">
+
+        <div class="card border-0 shadow-lg rounded-4">
+
+          <div class="card-body p-5">
+
+            <h3 class="fw-bold mb-4 text-center">
+
+              <i class="bi bi-shield-check text-success"></i>
+
+              Verification Security
+
+            </h3>
+
+            <div class="row g-4">
+
+              <div class="col-md-3">
+
+                <div class="security-card">
+
+                  <i class="bi bi-database-check text-primary"></i>
+
+                  <h5>Database</h5>
+
+                  <p>
+                    Record found in the official GNITC ERP database.
+                  </p>
+
+                </div>
+
+              </div>
+
+              <div class="col-md-3">
+
+                <div class="security-card">
+
+                  <i class="bi bi-qr-code-scan text-success"></i>
+
+                  <h5>QR Verified</h5>
+
+                  <p>
+                    Accessed using the official digital student ID.
+                  </p>
+
+                </div>
+
+              </div>
+
+              <div class="col-md-3">
+
+                <div class="security-card">
+
+                  <i class="bi bi-lock-fill text-warning"></i>
+
+                  <h5>Secure</h5>
+
+                  <p>
+                    Information is protected by the GNITC ERP System.
+                  </p>
+
+                </div>
+
+              </div>
+
+              <div class="col-md-3">
+
+                <div class="security-card">
+
+                  <i class="bi bi-patch-check-fill text-success"></i>
+
+                  <h5>Authentic</h5>
+
+                  <p>
+                    This student identity has been officially verified.
+                  </p>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Footer -->
+
+      <div class="footer">
+
+        <div>
+
+          <h5>
+
+            Guru Nanak Institutes Technical Campus
+
+          </h5>
+
+          <p>
+
+            Official Digital Student Verification Portal
+
+          </p>
+
+        </div>
+
+        <div>
+
+          <i class="bi bi-shield-check text-success"></i>
+
+          Verified & Digitally Generated
+
+        </div>
+
+      </div>
+
+    </div>
+
+</body>
+
+</html>
+

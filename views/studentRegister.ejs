@@ -19,8 +19,10 @@
       .register-container {
         background-color: #000000;
         color: #ffffff;
-        max-width: 380px; /* Reduced from 450px */
-        padding: 1.75rem 2rem; /* Reduced padding */
+        max-width: 380px;
+        /* Reduced from 450px */
+        padding: 1.75rem 2rem;
+        /* Reduced padding */
         border-radius: 4px;
         position: relative;
       }
@@ -38,7 +40,8 @@
       /* Smaller label sizes and margins */
       .form-label {
         font-weight: 600;
-        font-size: 0.95rem; /* Reduced from 1.15rem */
+        font-size: 0.95rem;
+        /* Reduced from 1.15rem */
         margin-bottom: 0.25rem;
       }
 
@@ -47,7 +50,8 @@
         background-color: #212121 !important;
         border: none !important;
         color: #ffffff !important;
-        padding: 0.5rem 0.75rem; /* Reduced height */
+        padding: 0.5rem 0.75rem;
+        /* Reduced height */
         font-size: 0.9rem;
       }
 
@@ -66,7 +70,8 @@
         border: none;
         color: white;
         font-weight: 600;
-        padding: 0.55rem; /* Reduced height */
+        padding: 0.55rem;
+        /* Reduced height */
         font-size: 0.95rem;
       }
 
@@ -90,6 +95,7 @@
       }
     </style>
   </head>
+
   <body>
     <div
       class="container d-flex justify-content-center align-items-center min-vh-100">
@@ -105,32 +111,65 @@
         </h2>
 
         <!-- Form with smaller bottom margins (mb-2/mb-3) -->
-       <form action="/student-register" method="POST">
-          
+        <form action="/register" method="POST" enctype="multipart/form-data">
           <div class="mb-3">
-            <input type="text" name="name" class="form-control form-control-custom" placeholder="What's your name?" required>
+            <input
+              type="text"
+              name="name"
+              class="form-control form-control-custom"
+              placeholder="What's your name?"
+              required />
           </div>
 
           <div class="mb-3">
-            <input type="email" name="email" class="form-control form-control-custom" placeholder="What's your e-mail?" required>
+            <input
+              type="email"
+              name="email"
+              class="form-control form-control-custom"
+              placeholder="What's your e-mail?"
+              required />
           </div>
 
           <div class="mb-3">
-            <input type="text" name="rollNo" class="form-control form-control-custom" placeholder="Your roll number?" required>
+            <input
+              type="text"
+              name="rollNo"
+              class="form-control form-control-custom"
+              placeholder="Your roll number?"
+              required />
           </div>
 
           <div class="mb-4">
-            <input type="password" name="password" class="form-control form-control-custom" placeholder="Your password?" required>
+            <input
+              type="password"
+              name="password"
+              class="form-control form-control-custom"
+              placeholder="Your password?"
+              required />
+          </div>
+          <div class="mb-4">
+            <label class="form-label fw-bold"> Student Profile Photo </label>
+
+            <input
+              type="file"
+              name="photo"
+              class="form-control"
+              accept="image/*"
+              required />
+
+            <small class="text-muted">
+              Upload a passport-size photo (JPG, PNG, WEBP)
+            </small>
           </div>
 
-          <button type="submit" class="btn btn-custom-purple w-100 mb-3">Register</button>
+          <button type="submit" class="btn btn-custom-purple w-100 mb-3">
+            Register
+          </button>
 
           <div class="d-flex justify-content-center pt-1 footer-text">
             <span class="text-muted me-1">Already have an account?</span>
             <a href="/student-login" class="footer-link">Login</a>
           </div>
-          
-        </form>
         </form>
       </div>
     </div>
