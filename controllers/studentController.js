@@ -4,8 +4,11 @@ const StudentProfile = require("../models/StudentProfile");
 const Event = require("../models/Event");
 const Club = require("../models/Club");
 const AcademicRecord = require("../models/AcademicRecord");
+const puppeteer = require("puppeteer");
 const QRCode = require("qrcode");
 const crypto = require("crypto");
+
+const fs = require("fs");
 
 // ==========================================
 // --- 1. AUTHENTICATION & REGISTRATION ---
@@ -505,5 +508,49 @@ exports.verifyStudent = async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).send("Server Error");
+  }
+};
+
+exports.downloadDigitalId = async (req, res) => {
+  try {
+    const {rollNo} = req.params;
+
+    const student = await StudentAuth.findOne({rollNo});
+
+    const profile = await StudentProfile.findOne({rollNo});
+
+    if (!student || !profile) {
+      return res.status(404).send("Student not found");
+    }
+
+    const browser = await puppeteer.launch({
+      headless: "new",
+    });
+
+    const page = await browser.newPage();
+
+    await page.goto(`${process.env.APP_URL}/digital-id/${rollNo}`, {
+      waitUntil: "networkidle0",
+    });
+
+    await page.evaluateHandle("document.fonts.ready");
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+
+    const pdf = await page.pdf({
+      printBackground: true,
+      preferCSSPageSize: true,
+    });
+
+    await browser.close();
+
+    res.set({
+      "Content-Type": "application/pdf",
+      "Content-Disposition": `attachment; filename=GNITC-${student.rollNo}-Digital-ID.pdf`,
+    });
+
+    res.send(pdf);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Unable to generate PDF");
   }
 };

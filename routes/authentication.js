@@ -69,5 +69,6 @@ router.post("/account/password/:rollNo", ctrl.updatePassword);
 // ID Card
 router.get("/digital-id/:rollNo", ctrl.getDigitalId);
 router.get("/verify/:rollNo", ctrl.verifyStudent);
+router.get("/digital-id/pdf/:rollNo", ctrl.downloadDigitalId);
 
 module.exports = router;
