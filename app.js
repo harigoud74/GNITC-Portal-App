@@ -12,7 +12,7 @@ const facultyRoutes = require("./routes/faculty"); // Our new modular router
 
 // 3. Initialize App
 const app = express();
-const port = 3000;
+const port = process.env.PORT;
 
 // 4. Connect to Database
 connectDB();

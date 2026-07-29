@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 // Paste your URI string directly here
-const mongoURI = "mongodb://127.0.0.1:27017/StudentAndFaculityDashboard";
+const mongoURI = process.env.MONGO_URI;
 
 const connectDB = async () => {
   try {
